@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI, Uncertainty &amp; Simulation — Mauritius 2026</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — Mauritius aerial palette
+════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sky:        #A8D5E2;
+  --turquoise:  #00B8D4;
+  --teal:       #0097A7;
+  --aqua:       #4DD0E1;
+  --sand:       #F4E8D0;
+  --cream:      #FBF7F0;
+  --ocean:      #006064;
+  --navy:       #004D5A;
+  --gold:       #D4A574;
+  --text:       #2C3E50;
+  --text-light: #546E7A;
+  
+  --ff-d:       'Cormorant Garamond', Georgia, serif;
+  --ff-b:       'Jost', system-ui, sans-serif;
+  --nav-h:      68px;
+  --t:          0.3s ease;
+  
+  --bg:         var(--cream);
+  --surface:    #FFFFFF;
+  --border:     rgba(0,184,212,0.18);
+  --border-h:   rgba(0,184,212,0.45);
+}
+
+[data-theme="dark"] {
+  --bg:         #0A1E28;
+  --surface:    #0E2838;
+  --text:       #E8F4F8;
+  --text-light: #B0BEC5;
+  --border:     rgba(77,208,225,0.2);
+  --border-h:   rgba(77,208,225,0.5);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff-b); background: var(--bg); color: var(--text);
+  line-height: 1.65; overflow-x: hidden;
+  transition: background var(--t), color var(--t);
+}
+.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0; }
+.container { width: min(1200px,100%); margin: 0 auto; padding: 0 32px; }
+*:focus-visible { outline: 2px solid var(--turquoise); outline-offset: 3px; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--ff-b); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 13px 28px; border: 2px solid currentColor;
+  cursor: pointer; background: transparent;
+  transition: var(--t); text-decoration: none; white-space: nowrap;
+}
+.btn-turquoise { border-color: var(--turquoise); color: var(--turquoise); }
+.btn-turquoise:hover { background: var(--turquoise); color: white; }
+.btn-ocean { border-color: var(--ocean); color: var(--ocean); }
+.btn-ocean:hover { background: var(--ocean); color: white; }
+.btn-fill { background: var(--turquoise); border-color: var(--turquoise); color: white; font-weight: 600; }
+.btn-fill:hover { background: var(--teal); border-color: var(--teal); }
+.btn-gold { background: var(--gold); border-color: var(--gold); color: white; font-weight: 600; }
+.btn-gold:hover { background: #c99764; border-color: #c99764; }
+
+/* ── NAV ── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: var(--nav-h);
+  background: rgba(251,247,240,0.94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  transition: var(--t);
+  box-shadow: 0 2px 12px rgba(0,184,212,0.08);
+}
+[data-theme="dark"] #nav { background: rgba(10,30,40,0.94); }
+.nav-inner { width:100%; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-brand { font-family: var(--ff-d); font-size: 1.1rem; font-weight: 400; color: var(--text); text-decoration: none; flex-shrink: 0; }
+.nav-brand em { color: var(--turquoise); font-style: italic; }
+.nav-links { display:flex; align-items:center; gap:2px; list-style:none; }
+.nav-links a { color:var(--text); text-decoration:none; font-size:0.7rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; padding:6px 12px; opacity:0.65; transition:var(--t); }
+.nav-links a:hover { opacity:1; color:var(--turquoise); }
+.nav-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+.theme-toggle { background:none; border:1px solid var(--border); color:var(--text); width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; justify-content:center; transition:var(--t); }
+.theme-toggle:hover { border-color:var(--turquoise); color:var(--turquoise); }
+.hamburger { display:none; background:none; border:none; cursor:pointer; padding:8px; flex-direction:column; gap:5px; }
+.hamburger span { display:block; width:22px; height:1.5px; background:var(--text); }
+.mobile-menu { display:none; position:fixed; top:var(--nav-h); left:0; right:0; z-index:999; background:rgba(251,247,240,0.98); border-bottom:1px solid var(--border); padding:20px 32px 28px; }
+[data-theme="dark"] .mobile-menu { background:rgba(10,30,40,0.98); }
+.mobile-menu.open { display:block; }
+.mobile-menu a { display:block; color:var(--text); text-decoration:none; padding:12px 0; border-bottom:1px solid var(--border); font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; }
+@media(max-width:960px){ .nav-links{display:none;} .hamburger{display:flex;} .nav-right .btn{display:none;} }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #A8D5E2 0%, #00B8D4 55%, #0097A7 100%);
+  padding-top: var(--nav-h);
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center;
+}
+.hero-sky { position: absolute; top: 0; left: 0; right: 0; height: 35%; background: linear-gradient(180deg, #B8E5F2 0%, #8DD4E8 100%); opacity: 0.7; }
+.hero-shallow { position: absolute; top: 32%; left: 0; right: 0; height: 30%; background: #4DD0E1; opacity: 0.6; clip-path: ellipse(80% 65% at 52% 50%); }
+.hero-mid { position: absolute; bottom: 20%; left: 0; right: 0; height: 35%; background: #00ACC1; opacity: 0.5; }
+.hero-deep { position: absolute; bottom: 0; left: 0; right: 0; height: 22%; background: #00838F; opacity: 0.7; }
+
+.hero-contours { position:absolute; inset:0; pointer-events:none; z-index:2; }
+.hero-content { position:relative; z-index:5; padding:60px 0 140px; }
+.hero-loc { font-family:var(--ff-b); font-size:0.68rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--ocean); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
+.hero-loc::before { content:''; width:32px; height:1px; background:var(--ocean); }
+.hero-title { font-family:var(--ff-d); font-size:clamp(3rem,7vw,6.5rem); font-weight:300; line-height:1.0; color:white; letter-spacing:-0.01em; margin-bottom:18px; text-shadow: 0 2px 24px rgba(0,184,212,0.25); }
+.hero-title em { font-style:italic; color:#FFF9E6; }
+.hero-sub1 { font-family:var(--ff-b); font-size:0.72rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.85); margin-bottom:8px; }
+.hero-sub2 { font-family:var(--ff-b); font-size:0.72rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:36px; }
+#tagline-wrap { height:30px; overflow:hidden; margin-bottom:48px; }
+#tagline { font-family:var(--ff-d); font-style:italic; font-size:1.15rem; color:rgba(255,255,255,0.75); transition:opacity .45s,transform .45s; }
+#tagline.fade-out { opacity:0; transform:translateY(-8px); }
+#tagline.fade-in  { opacity:1; transform:translateY(0); }
+.hero-ctas { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:64px; }
+.scroll-cue { display:flex; align-items:center; gap:14px; color:rgba(255,255,255,0.6); font-size:0.63rem; letter-spacing:0.18em; text-transform:uppercase; }
+.scroll-line { width:1px; height:50px; background:white; opacity:0.7; animation:scrollpulse 2s ease-in-out infinite; transform-origin:top; }
+@keyframes scrollpulse { 0%,100%{opacity:.7;transform:scaleY(1)} 50%{opacity:0.2;transform:scaleY(0.4)} }
+
+.c-line { animation:cdrift 14s ease-in-out infinite; }
+.c-line:nth-child(2n){animation-duration:18s;animation-direction:reverse;}
+.c-line:nth-child(3n){animation-duration:22s;}
+@keyframes cdrift { 0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(5px);opacity:0.7} }
+.c-dot { animation:dblink 3.5s ease-in-out infinite; }
+.c-dot:nth-child(2n+1){animation-delay:.9s;}
+.c-dot:nth-child(3n+1){animation-delay:1.8s;}
+@keyframes dblink { 0%,100%{opacity:.95} 50%{opacity:.25} }
+
+/* ── MARQUEE ── */
+.marquee-wrap { background:var(--sky); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:16px 0; overflow:hidden; white-space:nowrap; }
+.marquee-inner { display:inline-flex; gap:60px; animation:marquee 25s linear infinite; }
+.marquee-inner span { font-size:0.67rem; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--ocean); }
+.marquee-inner span::before { content:'· '; color:var(--gold); }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ── SECTION COMMONS ── */
+.section { padding:96px 0; }
+.section-alt { background:var(--sand); }
+[data-theme="dark"] .section-alt { background:#0E2838; }
+.section-label { font-family:var(--ff-b); font-size:0.67rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--teal); margin-bottom:16px; display:flex; align-items:center; gap:14px; }
+.section-label::before { content:''; width:28px; height:1px; background:var(--teal); }
+.section-title { font-family:var(--ff-d); font-size:clamp(2rem,4vw,3.2rem); font-weight:300; line-height:1.1; letter-spacing:-0.01em; margin-bottom:32px; color:var(--text); }
+.section-title em { font-style:italic; color:var(--turquoise); }
+
+/* ── ABOUT ── */
+.about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:80px; align-items:start; }
+.about-lead p { font-size:1.05rem; line-height:1.8; color:var(--text-light); margin-bottom:18px; font-weight:300; }
+.key-facts { display:flex; flex-direction:column; gap:2px; }
+.fact-card { padding:20px 24px; background:white; border-left:3px solid var(--turquoise); transition:var(--t); box-shadow: 0 1px 4px rgba(0,184,212,0.1); }
+.fact-card:hover { box-shadow: 0 4px 12px rgba(0,184,212,0.18); }
+.fact-card-label { font-size:0.63rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:6px; }
+.fact-card-value { font-family:var(--ff-d); font-size:1.1rem; font-weight:400; color:var(--text); }
+.fact-card-sub { font-size:0.75rem; opacity:0.6; margin-top:3px; font-family:var(--ff-b); color:var(--text-light); }
+.about-quote { margin-top:36px; padding:20px 24px; border-left:3px solid var(--gold); background:rgba(0,184,212,0.04); }
+.about-quote p { font-family:var(--ff-d); font-size:1.2rem; font-style:italic; font-weight:300; line-height:1.6; color:var(--text-light); }
+
+/* Theme boxes */
+.theme-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
+.theme-box { padding:18px 20px; background:white; border-left:3px solid var(--turquoise); box-shadow: 0 1px 4px rgba(0,184,212,0.08); }
+.theme-box h4 { font-family:var(--ff-b); font-size:0.85rem; font-weight:600; margin-bottom:6px; color:var(--text); }
+.theme-box p { font-size:0.82rem; line-height:1.6; color:var(--text-light); font-weight:300; }
+@media(max-width:820px){ .about-grid{grid-template-columns:1fr;gap:48px;} .theme-grid{grid-template-columns:1fr;} }
+
+/* Learning outcomes — simple bullet list */
+.learn-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 12px 32px;
+  margin-top: 28px;
+  max-width: 900px;
+}
+.learn-list li {
+  padding-left: 24px;
+  position: relative;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: var(--text-light);
+  font-weight: 300;
+}
+.learn-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--turquoise);
+  font-weight: 600;
+}
+
+/* Who should attend boxes (keep white boxes, remove icons) */
+.benefit-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:16px; margin-top:28px; }
+.benefit-item { padding:18px 20px; background:white; border-left:3px solid var(--gold); box-shadow: 0 1px 4px rgba(0,184,212,0.08); }
+.benefit-text { font-size:0.88rem; line-height:1.6; color:var(--text-light); font-weight:300; }
+
+/* ── PROGRAMME ── */
+.day-tabs { display:flex; gap:0; margin-bottom:48px; border-bottom:2px solid var(--border); flex-wrap:wrap; }
+.day-tab { background:none; border:none; cursor:pointer; padding:14px 24px; font-family:var(--ff-b); font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-light); border-bottom:3px solid transparent; margin-bottom:-2px; transition:var(--t); }
+.day-tab.active { color:var(--turquoise); border-bottom-color:var(--turquoise); }
+.day-tab:hover:not(.active) { color:var(--text); }
+.day-panel { display:none; }
+.day-panel.active { display:block; }
+.day-intro { font-family:var(--ff-d); font-size:1.25rem; font-weight:300; font-style:italic; color:var(--text-light); margin-bottom:36px; }
+.timeline { position:relative; padding-left:32px; }
+.timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:2px; background:var(--border); }
+.tl-item { position:relative; margin-bottom:30px; }
+.tl-item::before { content:''; position:absolute; left:-37px; top:6px; width:10px; height:10px; border-radius:50%; background:var(--aqua); border:2px solid var(--turquoise); box-shadow:0 0 8px rgba(0,184,212,0.4); }
+.tl-time { font-size:0.67rem; font-weight:600; letter-spacing:0.12em; color:var(--teal); text-transform:uppercase; margin-bottom:5px; }
+.tl-title { font-size:0.98rem; font-weight:500; margin-bottom:8px; color:var(--text); }
+.tl-expand-btn { background:none; border:none; cursor:pointer; font-family:var(--ff-b); font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--turquoise); padding:0; transition:var(--t); }
+.tl-expand-btn:hover { color:var(--teal); }
+.tl-desc { display:none; margin-top:12px; font-size:0.88rem; line-height:1.7; font-weight:300; color:var(--text-light); border-left:2px solid var(--turquoise); padding:12px 16px; background:rgba(0,184,212,0.04); }
+.tl-desc.open { display:block; }
+
+/* ── SPEAKERS ── */
+.speaker-rail { display:flex; gap:16px; overflow-x:auto; padding-bottom:16px; -webkit-overflow-scrolling:touch; scrollbar-width:thin; scrollbar-color:var(--turquoise) transparent; }
+.speaker-rail::-webkit-scrollbar { height:3px; }
+.speaker-rail::-webkit-scrollbar-thumb { background:var(--turquoise); }
+.speaker-card { flex-shrink:0; width:210px; background:white; border:1px solid var(--border); position:relative; overflow:hidden; cursor:default; transition:var(--t); box-shadow: 0 2px 8px rgba(0,184,212,0.08); }
+.speaker-card:hover { border-color:var(--turquoise); box-shadow: 0 4px 16px rgba(0,184,212,0.18); }
+.speaker-avatar { width:100%; height:148px; display:flex; align-items:center; justify-content:center; font-family:var(--ff-d); font-size:2rem; font-weight:300; color:rgba(255,255,255,0.85); position:relative; overflow:hidden; }
+.speaker-card:nth-child(1) .speaker-avatar{background:linear-gradient(135deg, #00ACC1 0%, #0097A7 100%);}
+.speaker-card:nth-child(2) .speaker-avatar{background:linear-gradient(135deg, #4DD0E1 0%, #00B8D4 100%);}
+.speaker-card:nth-child(3) .speaker-avatar{background:linear-gradient(135deg, #00838F 0%, #006064 100%);}
+.speaker-card:nth-child(4) .speaker-avatar{background:linear-gradient(135deg, #26C6DA 0%, #00ACC1 100%);}
+.speaker-card:nth-child(5) .speaker-avatar{background:linear-gradient(135deg, #0097A7 0%, #00838F 100%);}
+.speaker-card:nth-child(6) .speaker-avatar{background:linear-gradient(135deg, #00B8D4 0%, #0097A7 100%);}
+.speaker-avatar::before { content:''; position:absolute; width:110px; height:110px; border-radius:50%; border:1px solid rgba(255,255,255,0.25); top:50%; left:50%; transform:translate(-50%,-50%); }
+.speaker-avatar::after  { content:''; position:absolute; width:66px;  height:66px;  border-radius:50%; border:1px solid rgba(255,255,255,0.35); top:50%; left:50%; transform:translate(-50%,-50%); }
+.speaker-info { padding:16px; }
+.speaker-name { font-family:var(--ff-d); font-size:1.05rem; font-weight:400; margin-bottom:4px; color:var(--text); }
+.speaker-aff  { font-size:0.7rem; opacity:0.6; margin-bottom:10px; color:var(--text-light); }
+.speaker-tags { display:flex; gap:6px; flex-wrap:wrap; }
+.speaker-tag  { font-size:0.6rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:3px 8px; background:rgba(0,184,212,0.1); color:var(--turquoise); }
+.speaker-bio-hover { position:absolute; inset:0; background:rgba(0,151,167,0.97); color:white; padding:24px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--ff-d); font-style:italic; font-weight:300; font-size:0.9rem; line-height:1.65; opacity:0; transition:opacity .3s; pointer-events:none; }
+.speaker-card:hover .speaker-bio-hover,
+.speaker-card:focus-within .speaker-bio-hover { opacity:1; pointer-events:auto; }
+
+/* ── APPLICATIONS ── */
+.apps-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+@media(max-width:768px){ .apps-grid{grid-template-columns:1fr;} }
+.apps-list { list-style:none; }
+.apps-list li { padding:13px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:14px; font-size:0.9rem; font-weight:300; line-height:1.65; color:var(--text); }
+.apps-list li::before { content:'→'; color:var(--turquoise); flex-shrink:0; font-weight:600; }
+.checklist { list-style:none; margin-top:14px; }
+.checklist li { display:flex; align-items:flex-start; gap:14px; padding:13px 0; border-bottom:1px solid var(--border); cursor:pointer; font-size:0.88rem; font-weight:300; user-select:none; transition:var(--t); line-height:1.5; color:var(--text); }
+.checklist li:hover { color:var(--turquoise); }
+.check-box { width:18px; height:18px; flex-shrink:0; margin-top:2px; border:2px solid var(--turquoise); position:relative; transition:var(--t); }
+.checklist li.checked .check-box { background:var(--turquoise); }
+.checklist li.checked .check-box::after { content:'✓'; color:white; font-size:0.68rem; font-weight:700; position:absolute; top:50%; left:50%; transform:translate(-50%,-52%); }
+.checklist li.checked > span { text-decoration:line-through; opacity:0.4; }
+.key-dates { margin-top:32px; }
+.key-dates-title { font-size:0.63rem; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--teal); margin-bottom:14px; }
+.date-item { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--border); font-size:0.86rem; font-weight:300; color:var(--text); }
+.date-item span:last-child { font-family:var(--ff-d); font-size:0.92rem; color:var(--gold); }
+
+/* ── TRAVEL ── */
+.travel-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+@media(max-width:768px){ .travel-grid{grid-template-columns:1fr;} }
+.travel-note { border:1px solid var(--border); background:white; padding:18px 22px; margin-bottom:12px; font-size:0.86rem; font-weight:300; line-height:1.75; color:var(--text); box-shadow: 0 1px 4px rgba(0,184,212,0.06); }
+.travel-note strong { color:var(--turquoise); font-weight:600; }
+.accordion-item { border-bottom:1px solid var(--border); }
+.accordion-trigger { width:100%; background:none; border:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:20px 0; font-family:var(--ff-b); font-size:0.86rem; font-weight:500; color:var(--text); text-align:left; transition:var(--t); }
+.accordion-trigger:hover { color:var(--turquoise); }
+.accordion-icon { font-size:1.2rem; color:var(--turquoise); transition:var(--t); flex-shrink:0; }
+.accordion-trigger.open .accordion-icon { transform:rotate(45deg); }
+.accordion-body { display:none; padding:0 0 20px; font-size:0.86rem; font-weight:300; line-height:1.8; color:var(--text-light); }
+.accordion-body.open { display:block; }
+
+/* ── SPONSORS ── */
+.sponsors-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:2px; background:var(--border); margin-bottom:40px; }
+.sponsor-block { height:96px; display:flex; align-items:center; justify-content:center; background:white; transition:var(--t); }
+.sponsor-block:hover { background:rgba(0,184,212,0.05); }
+.logo-mark svg { width:48px; height:48px; }
+.sponsor-tiers { display:flex; flex-direction:column; gap:2px; }
+.tier { padding:18px 22px; border:1px solid var(--border); background:white; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.tier-name { font-family:var(--ff-d); font-size:1.05rem; font-weight:400; color:var(--text); }
+.tier-perks { font-size:0.76rem; opacity:0.6; margin-top:4px; color:var(--text-light); }
+.tier-price { font-family:var(--ff-d); font-size:1.1rem; color:var(--gold); white-space:nowrap; }
+
+/* ── FAQ ── */
+.faq-list { max-width:800px; }
+
+/* ── FOOTER ── */
+footer { background:var(--sky); border-top:1px solid var(--border); padding:72px 0 36px; }
+.footer-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:48px; margin-bottom:56px; }
+@media(max-width:640px){ .footer-grid{grid-template-columns:1fr;gap:32px;} }
+.footer-brand { font-family:var(--ff-d); font-size:1.5rem; font-weight:300; color:var(--text); }
+.footer-brand em { font-style:italic; color:var(--turquoise); }
+.footer-tagline { margin-top:10px; font-size:0.76rem; opacity:0.6; font-weight:300; line-height:1.6; color:var(--text-light); }
+.footer-col-title { font-size:0.63rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--teal); margin-bottom:18px; }
+.footer-links { list-style:none; }
+.footer-links li+li { margin-top:10px; }
+.footer-links a { color:var(--text-light); text-decoration:none; font-size:0.82rem; font-weight:300; transition:var(--t); }
+.footer-links a:hover { color:var(--turquoise); }
+.footer-bottom { border-top:1px solid var(--border); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:0.7rem; opacity:0.55; font-weight:300; color:var(--text-light); }
+
+/* ── MODALS ── */
+.modal-backdrop { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,97,107,0.75); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.open { display:flex; }
+.modal { background:white; color:var(--text); max-width:520px; width:100%; border:2px solid var(--turquoise); max-height:90vh; overflow-y:auto; box-shadow: 0 8px 32px rgba(0,184,212,0.25); }
+.modal-header { padding:28px 32px 24px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:flex-start; background:rgba(0,184,212,0.04); }
+.modal-header h2 { font-family:var(--ff-d); font-size:1.5rem; font-weight:300; color:var(--text); }
+.modal-close { background:none; border:none; cursor:pointer; color:var(--text-light); font-size:1.2rem; padding:0 0 0 16px; transition:var(--t); }
+.modal-close:hover { color:var(--turquoise); }
+.modal-body { padding:28px 32px 32px; }
+.modal-body .lead { font-size:0.86rem; font-weight:300; line-height:1.75; color:var(--text-light); margin-bottom:28px; }
+.form-group { margin-bottom:20px; }
+.form-group label { display:block; font-size:0.63rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:8px; }
+.form-group input,
+.form-group select { width:100%; padding:11px 16px; border:1px solid var(--border); background:white; color:var(--text); font-family:var(--ff-b); font-size:0.88rem; font-weight:300; transition:var(--t); -webkit-appearance:none; appearance:none; }
+.form-group input:focus,.form-group select:focus { outline:none; border-color:var(--turquoise); box-shadow: 0 0 0 3px rgba(0,184,212,0.1); }
+.form-group input::placeholder { opacity:0.4; }
+.select-wrap { position:relative; }
+.select-wrap::after { content:'↓'; position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--turquoise); pointer-events:none; }
+
+@media(max-width:600px){ .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} }
+</style>
+</head>
+
+<body>
+
+<!-- ════ NAV ════ -->
+<nav id="nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">AI, Uncertainty <em>&amp; Simulation</em></a>
+    <ul class="nav-links" role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#learn">What You'll Learn</a></li>
+      <li><a href="#programme">Programme</a></li>
+      <li><a href="#speakers">Speakers</a></li>
+      <li><a href="#who">Who Should Attend</a></li>
+      <li><a href="#applications">Apply</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☽</button>
+      <button class="btn btn-turquoise" onclick="openModal('register')">Register Interest</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#learn" onclick="closeMobile()">What You'll Learn</a>
+  <a href="#programme" onclick="closeMobile()">Programme</a>
+  <a href="#speakers" onclick="closeMobile()">Speakers</a>
+  <a href="#who" onclick="closeMobile()">Who Should Attend</a>
+  <a href="#applications" onclick="closeMobile()">Apply</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <button class="btn btn-fill" style="margin-top:20px;width:100%;justify-content:center" onclick="closeMobile();openModal('register')">Register Interest</button>
+</div>
+
+<!-- ════ HERO ════ -->
+<section id="hero" aria-label="Hero">
+  <div class="hero-sky" aria-hidden="true"></div>
+  <div class="hero-shallow" aria-hidden="true"></div>
+  <div class="hero-mid" aria-hidden="true"></div>
+  <div class="hero-deep" aria-hidden="true"></div>
+
+  <!-- Islands -->
+  <svg style="position:absolute;top:26%;left:50%;transform:translateX(-50%);width:min(540px,88%);opacity:0.85;pointer-events:none;z-index:3" aria-hidden="true" viewBox="0 0 540 190">
+    <ellipse cx="305" cy="130" rx="132" ry="46" fill="#2D5016" opacity="0.75"/>
+    <ellipse cx="280" cy="115" rx="98" ry="36" fill="#3D6B1F"/>
+    <ellipse cx="318" cy="107" rx="74" ry="29" fill="#4A7F28"/>
+    <ellipse cx="305" cy="133" rx="138" ry="49" fill="#E8D4A8" opacity="0.18"/>
+    <ellipse cx="105" cy="123" rx="74" ry="27" fill="#2D5016" opacity="0.65"/>
+    <ellipse cx="95" cy="114" rx="57" ry="22" fill="#4A7F28" opacity="0.8"/>
+    <ellipse cx="105" cy="126" rx="80" ry="29" fill="#E8D4A8" opacity="0.15"/>
+    <line x1="268" y1="107" x2="257" y2="71" stroke="#1A2E0A" stroke-width="2.5"/>
+    <ellipse cx="251" cy="70" rx="13" ry="5.5" fill="#1A2E0A" opacity="0.8" transform="rotate(-17,251,70)"/>
+    <ellipse cx="263" cy="65" rx="12" ry="5" fill="#2D4515" opacity="0.8" transform="rotate(12,263,65)"/>
+    <line x1="310" y1="102" x2="322" y2="68" stroke="#1A2E0A" stroke-width="2"/>
+    <ellipse cx="330" cy="66" rx="12" ry="5" fill="#1A2E0A" opacity="0.8" transform="rotate(20,330,66)"/>
+    <ellipse cx="316" cy="62" rx="11" ry="4.5" fill="#2D4515" opacity="0.75" transform="rotate(-6,316,62)"/>
+    <line x1="91" y1="113" x2="82" y2="83" stroke="#1A2E0A" stroke-width="2"/>
+    <ellipse cx="77" cy="82" rx="11" ry="4.5" fill="#1A2E0A" opacity="0.7" transform="rotate(-13,77,82)"/>
+    <ellipse cx="88" cy="78" rx="10" ry="4" fill="#2D4515" opacity="0.7" transform="rotate(8,88,78)"/>
+  </svg>
+
+  <!-- Contours -->
+  <svg class="hero-contours" aria-hidden="true" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
+    <g fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.2">
+      <path class="c-line" d="M0,770 C200,720 450,790 700,745 C950,700 1150,765 1400,730"/>
+      <path class="c-line" d="M0,710 C220,655 460,725 720,678 C960,634 1180,705 1400,670"/>
+      <path class="c-line" d="M0,650 C200,600 440,662 700,616 C940,572 1160,640 1400,610"/>
+      <path class="c-line" d="M0,830 C210,795 450,850 700,818 C940,785 1170,840 1400,810"/>
+    </g>
+    <g fill="none" stroke="rgba(0,100,110,0.35)" stroke-width="1">
+      <circle class="c-line" cx="320" cy="660" r="98"/>
+      <circle class="c-line" cx="320" cy="660" r="70"/>
+      <circle class="c-line" cx="320" cy="660" r="45"/>
+      <circle class="c-line" cx="320" cy="660" r="23"/>
+      <ellipse class="c-line" cx="320" cy="660" rx="115" ry="80" transform="rotate(-19,320,660)"/>
+      <circle class="c-line" cx="1090" cy="630" r="82"/>
+      <circle class="c-line" cx="1090" cy="630" r="58"/>
+      <circle class="c-line" cx="1090" cy="630" r="33"/>
+      <ellipse class="c-line" cx="1090" cy="630" rx="98" ry="70" transform="rotate(23,1090,630)"/>
+      <circle class="c-line" cx="710" cy="780" r="60"/>
+      <circle class="c-line" cx="710" cy="780" r="40"/>
+      <circle class="c-line" cx="710" cy="780" r="21"/>
+    </g>
+    <g fill="rgba(0,100,110,0.75)">
+      <circle class="c-dot" cx="298" cy="642" r="2.3"/><circle class="c-dot" cx="336" cy="629" r="1.8"/>
+      <circle class="c-dot" cx="313" cy="670" r="2.3"/><circle class="c-dot" cx="352" cy="658" r="1.8"/>
+      <circle class="c-dot" cx="294" cy="674" r="1.8"/><circle class="c-dot" cx="328" cy="648" r="2.6"/>
+      <circle class="c-dot" cx="320" cy="664" r="1.8"/><circle class="c-dot" cx="344" cy="678" r="1.8"/>
+      <circle class="c-dot" cx="306" cy="655" r="2.3"/><circle class="c-dot" cx="361" cy="643" r="1.8"/>
+      <circle class="c-dot" cx="1068" cy="617" r="2.3"/><circle class="c-dot" cx="1106" cy="606" r="1.8"/>
+      <circle class="c-dot" cx="1080" cy="642" r="2.3"/><circle class="c-dot" cx="1114" cy="628" r="1.8"/>
+      <circle class="c-dot" cx="692" cy="767" r="2.3"/><circle class="c-dot" cx="724" cy="758" r="1.8"/>
+      <circle class="c-dot" cx="706" cy="788" r="2.3"/><circle class="c-dot" cx="730" cy="776" r="1.8"/>
+    </g>
+  </svg>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-loc">Mauritius &nbsp;·&nbsp; 2026</div>
+      <h1 class="hero-title">AI, Uncertainty<br/>&amp; <em>Simulation</em></h1>
+      <p class="hero-sub1">Bayesian Methods &amp; Neural Inference at Scale</p>
+      <p class="hero-sub2">3-Day Graduate Workshop &nbsp;+&nbsp; Advanced Research Day</p>
+      <div id="tagline-wrap" aria-live="polite">
+        <p id="tagline" class="fade-in">AI beyond point prediction</p>
+      </div>
+      <div class="hero-ctas">
+        <a href="#programme" class="btn btn-ocean">View Programme</a>
+        <button class="btn btn-fill" onclick="openModal('register')">Register Interest</button>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span>Scroll to explore</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-inner">
+    <span>Bayesian Foundations</span><span>Simulation-Based Inference</span>
+    <span>Neural Density Estimation</span><span>Gaussian Process Emulation</span>
+    <span>Uncertainty Quantification</span><span>Calibration at Scale</span>
+    <span>Probabilistic Programming</span><span>Amortized Inference</span>
+    <span>Bayesian Foundations</span><span>Simulation-Based Inference</span>
+    <span>Neural Density Estimation</span><span>Gaussian Process Emulation</span>
+    <span>Uncertainty Quantification</span><span>Calibration at Scale</span>
+    <span>Probabilistic Programming</span><span>Amortized Inference</span>
+  </div>
+</div>
+
+<!-- ════ ABOUT ════ -->
+<section id="about" class="section" aria-labelledby="about-title">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <div class="section-label">About the Workshop</div>
+        <h2 class="section-title" id="about-title">Bayesian Methods and<br/><em>Neural Inference at Scale</em></h2>
+        <div class="about-lead">
+          <p>Modern AI systems increasingly interact with scientific simulators, high-dimensional data, and safety-critical decisions. Yet many AI models remain poorly calibrated, overconfident, and unable to reason coherently under uncertainty.</p>
+          <p>This 3-day graduate workshop develops the mathematical and computational foundations of AI under uncertainty, beginning with Bayesian inference and building toward modern simulation-based inference (SBI) and neural emulation.</p>
+          <p>Participants will learn how probabilistic reasoning, approximate inference, and surrogate modelling form the backbone of scalable and reliable AI systems — especially when explicit likelihoods are unavailable but simulators are abundant.</p>
+          <p>The workshop culminates in a 1-day advanced research session on frontier methods in neural SBI, adaptive simulation, and calibration.</p>
+        </div>
+        <div class="about-quote">
+          <p>"Uncertainty as infrastructure for reliable AI."</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:0.85rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--teal);margin-bottom:20px;">Core Themes</h3>
+        <div class="theme-grid">
+          <div class="theme-box">
+            <h4>AI Beyond Point Prediction</h4>
+            <p>Move from deterministic outputs to full posterior distributions</p>
+          </div>
+          <div class="theme-box">
+            <h4>Uncertainty as Infrastructure</h4>
+            <p>Principled probabilistic reasoning at scale</p>
+          </div>
+          <div class="theme-box">
+            <h4>Inference as Inversion</h4>
+            <p>Learning from generative processes and simulators</p>
+          </div>
+          <div class="theme-box">
+            <h4>Neural Methods, Statistical Principles</h4>
+            <p>Deep learning grounded in Bayesian foundations</p>
+          </div>
+        </div>
+        <h3 style="font-size:0.85rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--teal);margin:32px 0 20px;">Why This Workshop?</h3>
+        <div class="about-lead">
+          <p>Many AI methods can be understood as approximate Bayesian inference at scale. Simulation-based inference generalises this paradigm to settings where likelihoods are intractable but forward simulators exist.</p>
+          <p>This workshop provides a unified conceptual framework connecting:<br/><strong>Bayesian statistics → probabilistic deep learning → likelihood-free inference → neural emulation → scalable scientific AI.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHAT YOU'LL LEARN ════ -->
+<section id="learn" class="section section-alt" aria-labelledby="learn-title">
+  <div class="container">
+    <div class="section-label">Learning Outcomes</div>
+    <h2 class="section-title" id="learn-title">What You Will <em>Learn</em></h2>
+    <p style="font-size:0.96rem;color:var(--text-light);margin-bottom:32px;line-height:1.75;font-weight:300;max-width:68ch;">
+      Participants will develop a coherent understanding of probabilistic AI, with emphasis on conceptual clarity, mathematical grounding, and computational practice.
+    </p>
+    <ul class="learn-list">
+      <li>Bayesian inference as a framework for scientific learning</li>
+      <li>Posterior geometry and hierarchical modelling</li>
+      <li>Variational inference and amortized neural inference</li>
+      <li>Generative models as probabilistic programs</li>
+      <li>Likelihood-free inference and simulation-based inference (SBI)</li>
+      <li>Neural density estimation and posterior estimation</li>
+      <li>Gaussian process and neural emulators</li>
+      <li>Calibration, proper scoring rules, and reliability diagnostics</li>
+      <li>Active learning and adaptive simulation strategies</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════ PROGRAMME ════ -->
+<section id="programme" class="section" aria-labelledby="prog-title">
+  <div class="container">
+    <div class="section-label">Programme</div>
+    <h2 class="section-title" id="prog-title">Four Days of <em>Deep Engagement</em></h2>
+    <div class="day-tabs" role="tablist">
+      <button class="day-tab active" role="tab" aria-selected="true" aria-controls="day1" onclick="switchDay('day1',this)">Day 1</button>
+      <button class="day-tab" role="tab" aria-controls="day2" onclick="switchDay('day2',this)">Day 2</button>
+      <button class="day-tab" role="tab" aria-controls="day3" onclick="switchDay('day3',this)">Day 3</button>
+      <button class="day-tab" role="tab" aria-controls="day4" onclick="switchDay('day4',this)">Day 4 — Research</button>
+    </div>
+
+    <div id="day1" class="day-panel active" role="tabpanel">
+      <p class="day-intro">Bayesian Foundations for AI</p>
+      <p style="font-size:0.92rem;color:var(--text-light);margin-bottom:32px;font-weight:300;">Probability as inference, posterior reasoning, hierarchical models, predictive checks, decision theory, and MCMC intuition.</p>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">09:00 – 10:30</div><div class="tl-title">Bayesian Inference from First Principles</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Probability as epistemic uncertainty. Bayes' theorem. Prior elicitation and posterior reasoning. Conjugate families and the Beta-Binomial model.</div></div>
+        <div class="tl-item"><div class="tl-time">11:00 – 12:30</div><div class="tl-title">Hierarchical Models &amp; Posterior Geometry</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Hierarchical Bayesian models. Shrinkage and partial pooling. Understanding posterior landscapes. Predictive distributions and model checking.</div></div>
+        <div class="tl-item"><div class="tl-time">14:00 – 15:30</div><div class="tl-title">MCMC: Metropolis, Gibbs, and HMC</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Markov Chain Monte Carlo fundamentals. Metropolis-Hastings, Gibbs sampling, Hamiltonian Monte Carlo. Diagnostics: R-hat, effective sample size, trace plots.</div></div>
+        <div class="tl-item"><div class="tl-time">16:00 – 17:30</div><div class="tl-title">Hands-On Lab: Bayesian Workflow in Stan</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Practical session: implementing a complete Bayesian workflow with Stan. Prior/posterior predictive checks. Model comparison.</div></div>
+      </div>
+    </div>
+
+    <div id="day2" class="day-panel" role="tabpanel">
+      <p class="day-intro">Neural Inference &amp; Probabilistic Deep Learning</p>
+      <p style="font-size:0.92rem;color:var(--text-light);margin-bottom:32px;font-weight:300;">Variational inference, latent variable models, neural density estimation, amortized inference, uncertainty in deep learning.</p>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">09:00 – 10:30</div><div class="tl-title">Variational Inference &amp; the ELBO</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Evidence lower bound (ELBO). Mean-field approximations. Reparameterization trick. Automatic differentiation variational inference (ADVI).</div></div>
+        <div class="tl-item"><div class="tl-time">11:00 – 12:30</div><div class="tl-title">Latent Variable Models &amp; VAEs</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Variational autoencoders (VAEs). Amortized inference with encoder-decoder architectures. Normalizing flows for flexible posteriors.</div></div>
+        <div class="tl-item"><div class="tl-time">14:00 – 15:30</div><div class="tl-title">Neural Density Estimation</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Conditional density networks. Mixture density networks. Masked autoregressive flows (MAF). Neural spline flows. Coupling layers and invertible transformations.</div></div>
+        <div class="tl-item"><div class="tl-time">16:00 – 17:30</div><div class="tl-title">Uncertainty in Deep Learning</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Bayesian neural networks. Deep ensembles. MC Dropout. Laplace approximation at scale. Epistemic vs aleatoric uncertainty.</div></div>
+      </div>
+    </div>
+
+    <div id="day3" class="day-panel" role="tabpanel">
+      <p class="day-intro">Simulation-Based Inference &amp; Emulation</p>
+      <p style="font-size:0.92rem;color:var(--text-light);margin-bottom:32px;font-weight:300;">Inference without likelihoods, ABC, neural posterior estimation, emulator construction, surrogate modelling, active simulation design.</p>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">09:00 – 10:30</div><div class="tl-title">Likelihood-Free Inference: From ABC to SBI</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Approximate Bayesian Computation (ABC). Summary statistics and distance functions. Neural posterior estimation (NPE), likelihood estimation (NLE), and ratio estimation (NRE).</div></div>
+        <div class="tl-item"><div class="tl-time">11:00 – 12:30</div><div class="tl-title">Neural SBI in Practice</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">The SBI toolkit. Sequential neural posterior estimation. Embedding networks for high-dimensional observations. Applications to cosmology and neuroscience.</div></div>
+        <div class="tl-item"><div class="tl-time">14:00 – 15:30</div><div class="tl-title">Gaussian Processes &amp; Neural Emulators</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">GP regression and kernel design. Uncertainty-aware surrogate models. Neural network emulators. Deep kernel learning. Multi-fidelity emulation.</div></div>
+        <div class="tl-item"><div class="tl-time">16:00 – 17:30</div><div class="tl-title">Calibration &amp; Active Learning</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Proper scoring rules. Expected calibration error (ECE). Reliability diagrams. Active learning for simulation budgets. Bayesian optimization and acquisition functions.</div></div>
+      </div>
+    </div>
+
+    <div id="day4" class="day-panel" role="tabpanel">
+      <p class="day-intro">Advanced Research Session — Frontiers</p>
+      <p style="font-size:0.92rem;color:var(--text-light);margin-bottom:32px;font-weight:300;">Cutting-edge methods in neural SBI, high-dimensional emulation, adaptive simulation budgets, calibration, and scientific AI applications.</p>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">09:00 – 10:00</div><div class="tl-title">Keynote: Neural SBI at Scale</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Invited keynote on amortized inference, scalable posteriors, and open challenges in simulation-based inference.</div></div>
+        <div class="tl-item"><div class="tl-time">10:30 – 12:30</div><div class="tl-title">Research Talks &amp; Methods</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Three contributed talks: high-dimensional emulation for climate models, neural ABC for genomics, sequential experimental design with neural surrogates.</div></div>
+        <div class="tl-item"><div class="tl-time">14:00 – 16:00</div><div class="tl-title">Collaborative Problem-Solving</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Breakout groups tackle domain-specific challenges: climate model calibration, gravitational wave inference, drug discovery optimization.</div></div>
+        <div class="tl-item"><div class="tl-time">16:00 – 17:00</div><div class="tl-title">Presentations &amp; Closing</div><button class="tl-expand-btn" onclick="toggleDesc(this)">+ Expand</button><div class="tl-desc">Groups report findings. Open discussion on future research directions. Closing remarks and networking.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ SPEAKERS ════ -->
+<section id="speakers" class="section section-alt" aria-labelledby="speakers-title">
+  <div class="container">
+    <div class="section-label">Speakers &amp; Instructors</div>
+    <h2 class="section-title" id="speakers-title"><em>World-Class</em> Faculty</h2>
+    <p style="font-size:0.86rem;color:var(--text-light);margin-bottom:36px;">Confirmed speakers to be announced. Hover or focus a card to read their focus area.</p>
+    <div class="speaker-rail" role="list">
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar">A·R</div>
+        <div class="speaker-bio-hover">Research focuses on normalising flows and scalable variational inference for high-dimensional scientific simulators.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Dr. A. Researcher</div>
+          <div class="speaker-aff">University of TBC, UK</div>
+          <div class="speaker-tags"><span class="speaker-tag">SBI</span><span class="speaker-tag">FLOWS</span></div>
+        </div>
+      </div>
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar">B·S</div>
+        <div class="speaker-bio-hover">Specialises in Gaussian process emulation for climate models, with applications in IPCC-aligned projections.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Prof. B. Scholar</div>
+          <div class="speaker-aff">Institute TBC, South Africa</div>
+          <div class="speaker-tags"><span class="speaker-tag">GPS</span><span class="speaker-tag">CLIMATE</span></div>
+        </div>
+      </div>
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar">C·L</div>
+        <div class="speaker-bio-hover">Works on uncertainty-aware deep learning and conformal prediction in safety-critical systems and healthcare AI.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Dr. C. Lecturer</div>
+          <div class="speaker-aff">TBC University</div>
+          <div class="speaker-tags"><span class="speaker-tag">UQ</span><span class="speaker-tag">HEALTHCARE</span></div>
+        </div>
+      </div>
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar">D·P</div>
+        <div class="speaker-bio-hover">Expert in probabilistic programming languages — Pyro, Stan, NumPyro — and automatic differentiation for Bayesian modelling at scale.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Dr. D. Practitioner</div>
+          <div class="speaker-aff">Industry TBC</div>
+          <div class="speaker-tags"><span class="speaker-tag">PYMC</span><span class="speaker-tag">STAN</span></div>
+        </div>
+      </div>
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar">E·K</div>
+        <div class="speaker-bio-hover">Leads research on neural density estimators and active learning for SBI in astrophysics and cosmology.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Prof. E. Kaur</div>
+          <div class="speaker-aff">TBC Observatory</div>
+          <div class="speaker-tags"><span class="speaker-tag">ASTROPHYSICS</span><span class="speaker-tag">ACTIVE LEARNING</span></div>
+        </div>
+      </div>
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar">F·M</div>
+        <div class="speaker-bio-hover">Focuses on Bayesian optimisation, drug discovery pipelines, and multi-fidelity emulation for pharmaceutical research.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Dr. F. Mbeki</div>
+          <div class="speaker-aff">Pharma Research TBC</div>
+          <div class="speaker-tags"><span class="speaker-tag">BAYESOPT</span><span class="speaker-tag">DRUG DISCOVERY</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHO SHOULD ATTEND ════ -->
+<section id="who" class="section" aria-labelledby="who-title">
+  <div class="container">
+    <div class="section-label">Audience</div>
+    <h2 class="section-title" id="who-title">Who Should <em>Attend</em></h2>
+    <div class="about-grid">
+      <div>
+        <div class="about-lead">
+          <p>This workshop is designed for:</p>
+        </div>
+        <ul class="apps-list">
+          <li>PhD students and postdoctoral researchers</li>
+          <li>Advanced MSc students in statistics, ML, applied mathematics, physics, computational biology, or engineering</li>
+          <li>Researchers working with complex simulators (climate, cosmology, biology, epidemiology)</li>
+          <li>Anyone interested in building reliable AI systems under uncertainty</li>
+        </ul>
+        <div style="margin-top:28px;padding:20px 24px;background:white;border-left:3px solid var(--gold);box-shadow:0 1px 4px rgba(0,184,212,0.08);">
+          <p style="font-size:0.92rem;font-weight:300;line-height:1.7;color:var(--text-light);margin:0;">
+            <strong style="color:var(--text);">Prerequisites:</strong> Basic familiarity with probability and linear algebra is expected. Coding examples will be in Python. Prior exposure to Bayesian inference or deep learning is helpful but not required.
+          </p>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:0.85rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--teal);margin-bottom:20px;">You Will Leave With</h3>
+        <div class="benefit-grid">
+          <div class="benefit-item">
+            <div class="benefit-text">Mathematical insight into modern probabilistic AI</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-text">Practical tools: Stan, PyMC, SBI toolkits, GPyTorch</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-text">A unified framework connecting Bayesian stats → neural SBI → emulation</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-text">Access to a global network of researchers at the frontier</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ APPLICATIONS ════ -->
+<section id="applications" class="section section-alt" aria-labelledby="apps-title">
+  <div class="container">
+    <div class="section-label">Applications</div>
+    <h2 class="section-title" id="apps-title">Apply to <em>Attend</em></h2>
+    <div class="apps-grid">
+      <div>
+        <h3 style="font-size:0.63rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;">What to Submit</h3>
+        <ul class="apps-list">
+          <li>Short statement of motivation (max 500 words)</li>
+          <li>Current CV / academic résumé</li>
+          <li>Brief description of your research background and how this workshop fits your goals</li>
+          <li>Name and contact of one academic referee</li>
+          <li>Scholarship request (if applicable), with supporting statement</li>
+        </ul>
+        <div style="margin-top:32px;"><button class="btn btn-turquoise" onclick="fakeDownload()">↓ Download Call for Participation</button></div>
+      </div>
+      <div>
+        <h3 style="font-size:0.63rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;">Application Checklist</h3>
+        <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:14px;">Click to mark complete.</p>
+        <ul class="checklist">
+          <li onclick="toggleCheck(this)" role="checkbox" tabindex="0"><div class="check-box"></div><span>Review full programme and confirm alignment with your research goals</span></li>
+          <li onclick="toggleCheck(this)" role="checkbox" tabindex="0"><div class="check-box"></div><span>Prepare motivation statement (≤ 500 words)</span></li>
+          <li onclick="toggleCheck(this)" role="checkbox" tabindex="0"><div class="check-box"></div><span>Update CV and export as PDF</span></li>
+          <li onclick="toggleCheck(this)" role="checkbox" tabindex="0"><div class="check-box"></div><span>Contact referee to confirm availability</span></li>
+          <li onclick="toggleCheck(this)" role="checkbox" tabindex="0"><div class="check-box"></div><span>Prepare scholarship request (if applicable)</span></li>
+          <li onclick="toggleCheck(this)" role="checkbox" tabindex="0"><div class="check-box"></div><span>Submit via online form before deadline</span></li>
+        </ul>
+        <div class="key-dates">
+          <div class="key-dates-title">Key Dates</div>
+          <div class="date-item"><span>Application Portal Opens</span><span>TBC 2026</span></div>
+          <div class="date-item"><span>Application Deadline</span><span>TBC 2026</span></div>
+          <div class="date-item"><span>Decisions Communicated</span><span>TBC 2026</span></div>
+          <div class="date-item"><span>Workshop Begins</span><span>TBC 2026</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FAQ ════ -->
+<section id="faq" class="section" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title" id="faq-title">Frequently Asked <em>Questions</em></h2>
+    <div class="faq-list">
+      <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Do I need prior experience with Bayesian inference? <span class="accordion-icon">+</span></button><div class="accordion-body">No. We start from first principles. However, some familiarity with probability theory, linear algebra, and Python programming is expected.</div></div>
+      <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Will there be hands-on coding sessions? <span class="accordion-icon">+</span></button><div class="accordion-body">Yes. Each day includes practical labs with Python. We'll use Stan, PyMC, the SBI toolkit, GPyTorch, and other modern probabilistic programming tools.</div></div>
+      <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Are there scholarships available? <span class="accordion-icon">+</span></button><div class="accordion-body">Yes. Full and partial travel bursaries are available, prioritising applicants from low- and middle-income countries and particularly those affiliated with African institutions.</div></div>
+      <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">What should I bring? <span class="accordion-icon">+</span></button><div class="accordion-body">A laptop with Python 3.10+ and conda/pip installed. We'll provide setup instructions and environment files in advance.</div></div>
+      <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Is remote attendance possible? <span class="accordion-icon">+</span></button><div class="accordion-body">No. This is an in-person workshop. However, we aim to record lecture sessions (subject to speaker consent) and make them available to registered participants afterward.</div></div>
+      <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">What's the difference between the workshop days and the research day? <span class="accordion-icon">+</span></button><div class="accordion-body">Days 1–3 are the core graduate workshop, covering foundational to advanced material accessible to PhD students. Day 4 is an advanced research session with contributed talks, collaborative problem-solving, and cutting-edge methods — aimed at active researchers and practitioners.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">AI, Uncertainty <em>&amp; Simulation</em></div>
+        <div class="footer-tagline">Bayesian Methods &amp; Neural Inference at Scale<br/>Mauritius, 2026</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="#about">About</a></li><li><a href="#learn">What You'll Learn</a></li>
+          <li><a href="#programme">Programme</a></li><li><a href="#speakers">Speakers</a></li>
+          <li><a href="#who">Who Should Attend</a></li><li><a href="#applications">Apply</a></li><li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="mailto:contact@tbc.ac.uk">contact@tbc.ac.uk</a></li>
+          <li><a href="#">𝕏 @ai_uncertainty_workshop</a></li>
+          <li><a href="#">LinkedIn (TBC)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Organised by UK &amp; South African teams (AIMS and partners).</span>
+      <span>© 2026</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ════ MODAL ════ -->
+<div id="modal-register" class="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-header"><h2>Register Your Interest</h2><button class="modal-close" onclick="closeModal('register')">✕</button></div>
+    <div class="modal-body">
+      <p class="lead">Express your interest to receive updates, call for participation announcements, and priority application reminders.</p>
+      <div class="form-group"><label for="reg-name">Full Name</label><input type="text" id="reg-name" placeholder="e.g. Ada Lovelace"/></div>
+      <div class="form-group"><label for="reg-email">Email</label><input type="email" id="reg-email" placeholder="you@institution.edu"/></div>
+      <div class="form-group"><label for="reg-aff">Affiliation</label><input type="text" id="reg-aff" placeholder="University or Organisation"/></div>
+      <div class="form-group"><label for="reg-interest">Primary Interest</label><div class="select-wrap"><select id="reg-interest"><option value="">— Select —</option><option>Bayesian Inference &amp; MCMC</option><option>Simulation-Based Inference</option><option>Neural Density Estimation</option><option>Gaussian Processes &amp; Emulation</option><option>Uncertainty Quantification</option><option>Probabilistic Programming</option><option>Scientific Applications</option><option>Other</option></select></div></div>
+      <button class="btn btn-fill" style="width:100%;justify-content:center;margin-top:8px" onclick="submitRegister()">Submit →</button>
+      <p style="font-size:0.7rem;opacity:0.5;margin-top:16px;text-align:center;">By submitting you agree to receive event-related emails.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){const s=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',s);document.getElementById('themeToggle').textContent=s==='dark'?'☀':'☽';})();
+document.getElementById('themeToggle').addEventListener('click',function(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);this.textContent=n==='dark'?'☀':'☽';});
+
+const tags=['AI beyond point prediction','Uncertainty as infrastructure','Inference as inversion of generative processes','Neural methods grounded in statistical principles'];let ti=0;const tel=document.getElementById('tagline');
+setInterval(()=>{tel.classList.add('fade-out');tel.classList.remove('fade-in');setTimeout(()=>{ti=(ti+1)%tags.length;tel.textContent=tags[ti];tel.classList.remove('fade-out');tel.classList.add('fade-in');},450);},3500);
+
+document.querySelectorAll('a[href^="#"]').forEach(l=>l.addEventListener('click',function(e){const t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();const y=t.getBoundingClientRect().top+window.pageYOffset-document.getElementById('nav').offsetHeight-16;window.scrollTo({top:y,behavior:'smooth'});}}));
+
+const hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+hb.addEventListener('click',()=>{const o=mm.classList.toggle('open');hb.setAttribute('aria-expanded',o);});
+function closeMobile(){mm.classList.remove('open');hb.setAttribute('aria-expanded','false');}
+
+function openModal(id){const b=document.getElementById('modal-'+id);b.classList.add('open');document.body.style.overflow='hidden';const c=b.querySelector('.modal-close');if(c)c.focus();}
+function closeModal(id){document.getElementById('modal-'+id).classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.modal-backdrop').forEach(b=>b.addEventListener('click',e=>{if(e.target===b){b.classList.remove('open');document.body.style.overflow='';}}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});});
+function submitRegister(){const n=document.getElementById('reg-name').value.trim(),e=document.getElementById('reg-email').value.trim();if(!n||!e){alert('Please enter your name and email.');return;}closeModal('register');setTimeout(()=>alert('Thank you, '+n+'! We\'ll be in touch at '+e+'.'),200);}
+
+function switchDay(id,btn){document.querySelectorAll('.day-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');btn.setAttribute('aria-selected','true');document.getElementById(id).classList.add('active');}
+
+function toggleDesc(btn){const d=btn.nextElementSibling;const o=d.classList.toggle('open');btn.setAttribute('aria-expanded',o);btn.textContent=o?'− Collapse':'+ Expand';}
+
+function toggleAccordion(tr){const b=tr.nextElementSibling;const ic=tr.querySelector('.accordion-icon');const o=b.classList.toggle('open');tr.classList.toggle('open',o);tr.setAttribute('aria-expanded',o);ic.textContent=o?'×':'+';}
+
+function toggleCheck(li){const c=li.classList.toggle('checked');li.setAttribute('aria-checked',c);}
+document.querySelectorAll('.checklist li').forEach(li=>li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleCheck(li);}}));
+
+function fakeDownload(){const c=['AI, UNCERTAINTY & SIMULATION','Bayesian Methods and Neural Inference at Scale','Graduate Workshop + Research Session | Mauritius, 2026','═══════════════════════════════════════════════════════','','CALL FOR PARTICIPATION','','Modern AI systems increasingly interact with scientific simulators,','high-dimensional data, and safety-critical decisions. Yet many AI models','remain poorly calibrated and unable to reason under uncertainty.','','This 3-day graduate workshop develops the foundations of AI under uncertainty,','from Bayesian inference to simulation-based inference (SBI) and neural emulation.','','WHAT YOU WILL LEARN','─────────────────────','• Bayesian inference as a framework for scientific learning','• Variational inference and amortized neural inference','• Likelihood-free inference and simulation-based inference (SBI)','• Neural density estimation and posterior estimation','• Gaussian process and neural emulators','• Calibration, proper scoring rules, and reliability diagnostics','','PROGRAMME','─────────','Day 1: Bayesian Foundations for AI','Day 2: Neural Inference & Probabilistic Deep Learning','Day 3: Simulation-Based Inference & Emulation','Day 4: Advanced Research Session — Frontiers','','WHO SHOULD ATTEND','─────────────────','• PhD students and postdoctoral researchers','• Advanced MSc students in statistics, ML, applied maths, physics','• Researchers working with complex simulators','','CONTACT: contact@tbc.ac.uk','','Organised by UK & South African teams (AIMS and partners).','© 2026'].join('\n');
+  const blob=new Blob([c],{type:'text/plain'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='AI-Uncertainty-Simulation-CFP-2026.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
+
+document.querySelectorAll('.speaker-card').forEach(card=>{card.addEventListener('focus',()=>{const b=card.querySelector('.speaker-bio-hover');if(b)b.style.opacity='1';});card.addEventListener('blur',()=>{const b=card.querySelector('.speaker-bio-hover');if(b)b.style.opacity='0';});});
+</script>
+</body>
+</html>
