@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="googlebot" content="noindex, nofollow, noarchive">
 <title>AI, Uncertainty &amp; Simulation — Mauritius 2026</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -238,14 +236,47 @@ body {
 .speaker-card { flex-shrink:0; width:210px; background:white; border:1px solid var(--border); position:relative; overflow:hidden; cursor:default; transition:var(--t); box-shadow: 0 2px 8px rgba(0,184,212,0.08); }
 .speaker-card:hover { border-color:var(--turquoise); box-shadow: 0 4px 16px rgba(0,184,212,0.18); }
 .speaker-avatar { width:100%; height:148px; display:flex; align-items:center; justify-content:center; font-family:var(--ff-d); font-size:2rem; font-weight:300; color:rgba(255,255,255,0.85); position:relative; overflow:hidden; }
+
+/* Fallback gradients for cards without images */
 .speaker-card:nth-child(1) .speaker-avatar{background:linear-gradient(135deg, #00ACC1 0%, #0097A7 100%);}
 .speaker-card:nth-child(2) .speaker-avatar{background:linear-gradient(135deg, #4DD0E1 0%, #00B8D4 100%);}
 .speaker-card:nth-child(3) .speaker-avatar{background:linear-gradient(135deg, #00838F 0%, #006064 100%);}
 .speaker-card:nth-child(4) .speaker-avatar{background:linear-gradient(135deg, #26C6DA 0%, #00ACC1 100%);}
 .speaker-card:nth-child(5) .speaker-avatar{background:linear-gradient(135deg, #0097A7 0%, #00838F 100%);}
 .speaker-card:nth-child(6) .speaker-avatar{background:linear-gradient(135deg, #00B8D4 0%, #0097A7 100%);}
-.speaker-avatar::before { content:''; position:absolute; width:110px; height:110px; border-radius:50%; border:1px solid rgba(255,255,255,0.25); top:50%; left:50%; transform:translate(-50%,-50%); }
-.speaker-avatar::after  { content:''; position:absolute; width:66px;  height:66px;  border-radius:50%; border:1px solid rgba(255,255,255,0.35); top:50%; left:50%; transform:translate(-50%,-50%); }
+
+/* Image styling */
+.speaker-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Decorative circles */
+.speaker-avatar::before { content:''; position:absolute; width:110px; height:110px; border-radius:50%; border:1px solid rgba(255,255,255,0.25); top:50%; left:50%; transform:translate(-50%,-50%); z-index:1; pointer-events:none; }
+.speaker-avatar::after  { content:''; position:absolute; width:66px;  height:66px;  border-radius:50%; border:1px solid rgba(255,255,255,0.35); top:50%; left:50%; transform:translate(-50%,-50%); z-index:1; pointer-events:none; }
+
+/* Hide circles when there's an image */
+.speaker-avatar.has-image::before,
+.speaker-avatar.has-image::after {
+  display: none;
+}
+
+/* Initials */
+.speaker-initials {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hide initials when there's an image */
+.speaker-avatar.has-image .speaker-initials {
+  display: none;
+}
+
 .speaker-info { padding:16px; }
 .speaker-name { font-family:var(--ff-d); font-size:1.05rem; font-weight:400; margin-bottom:4px; color:var(--text); }
 .speaker-aff  { font-size:0.7rem; opacity:0.6; margin-bottom:10px; color:var(--text-light); }
@@ -347,14 +378,14 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
       <li><a href="#about">About</a></li>
       <li><a href="#learn">What You'll Learn</a></li>
       <li><a href="#programme">Programme</a></li>
-      <li><a href="#speakers">Speakers</a></li>
+      <li><a href="#speakers">Lecturers</a></li>
       <li><a href="#who">Who Should Attend</a></li>
       <li><a href="#applications">Apply</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <div class="nav-right">
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☽</button>
-      <button class="btn btn-turquoise" onclick="openModal('register')">Register Interest</button>
+      <a class="btn btn-turquoise" href="https://forms.gle/ZY8T4qpLLpbAvV657" target="_blank" rel="noopener noreferrer">Apply to Attend</a>
       <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -364,11 +395,11 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
   <a href="#about" onclick="closeMobile()">About</a>
   <a href="#learn" onclick="closeMobile()">What You'll Learn</a>
   <a href="#programme" onclick="closeMobile()">Programme</a>
-  <a href="#speakers" onclick="closeMobile()">Speakers</a>
+  <a href="#speakers" onclick="closeMobile()">Lecturers</a>
   <a href="#who" onclick="closeMobile()">Who Should Attend</a>
   <a href="#applications" onclick="closeMobile()">Apply</a>
   <a href="#faq" onclick="closeMobile()">FAQ</a>
-  <button class="btn btn-fill" style="margin-top:20px;width:100%;justify-content:center" onclick="closeMobile();openModal('register')">Register Interest</button>
+  <a class="btn btn-fill" style="margin-top:20px;width:100%;justify-content:center" href="https://forms.gle/ZY8T4qpLLpbAvV657" target="_blank" rel="noopener noreferrer" onclick="closeMobile()">Apply to Attend</a>
 </div>
 
 <!-- ════ HERO ════ -->
@@ -435,7 +466,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 
   <div class="container">
     <div class="hero-content">
-      <div class="hero-loc">Mauritius &nbsp;·&nbsp; 2026</div>
+      <div class="hero-loc">Mauritius &nbsp;&middot;&nbsp; 16&ndash;20 November 2026</div>
       <h1 class="hero-title">AI, Uncertainty<br/>&amp; <em>Simulation</em></h1>
       <p class="hero-sub1">Bayesian Methods &amp; Neural Inference at Scale</p>
       <p class="hero-sub2">3-Day Graduate Workshop &nbsp;+&nbsp; Advanced Research Day</p>
@@ -444,7 +475,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
       </div>
       <div class="hero-ctas">
         <a href="#programme" class="btn btn-ocean">View Programme</a>
-        <button class="btn btn-fill" onclick="openModal('register')">Register Interest</button>
+        <a class="btn btn-fill" href="https://forms.gle/ZY8T4qpLLpbAvV657" target="_blank" rel="noopener noreferrer">Apply to Attend</a>
       </div>
       <div class="scroll-cue" aria-hidden="true">
         <div class="scroll-line"></div>
@@ -597,64 +628,70 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 <!-- ════ SPEAKERS ════ -->
 <section id="speakers" class="section section-alt" aria-labelledby="speakers-title">
   <div class="container">
-    <div class="section-label">Speakers &amp; Instructors</div>
-    <h2 class="section-title" id="speakers-title"><em>World-Class</em> Faculty</h2>
-    <p style="font-size:0.86rem;color:var(--text-light);margin-bottom:36px;">Confirmed speakers to be announced. Hover or focus a card to read their focus area.</p>
+    <div class="section-label">Lecturers</div>
+    <h2 class="section-title" id="speakers-title">Lecturers</h2>
+    <p style="font-size:0.86rem;color:var(--text-light);margin-bottom:36px;">Our lecturers and organising committee for AI, Uncertainty &amp; Simulation 2026.</p>
     <div class="speaker-rail" role="list">
       <div class="speaker-card" tabindex="0">
-        <div class="speaker-avatar">A·R</div>
-        <div class="speaker-bio-hover">Research focuses on normalising flows and scalable variational inference for high-dimensional scientific simulators.</div>
+        <div class="speaker-avatar has-image">
+          <img src="alan%20heavens.jpeg" alt="Prof. Alan Heavens">
+          <span class="speaker-initials">A.H</span>
+        </div>
+        <div class="speaker-bio-hover">Lecturer.</div>
         <div class="speaker-info">
-          <div class="speaker-name">Dr. A. Researcher</div>
-          <div class="speaker-aff">University of TBC, UK</div>
-          <div class="speaker-tags"><span class="speaker-tag">SBI</span><span class="speaker-tag">FLOWS</span></div>
+          <div class="speaker-name">Prof. Alan Heavens</div>
+          <div class="speaker-aff">Imperial College London (ICL)</div>
+          <div class="speaker-tags"><span class="speaker-tag">ICL</span></div>
         </div>
       </div>
+
       <div class="speaker-card" tabindex="0">
-        <div class="speaker-avatar">B·S</div>
-        <div class="speaker-bio-hover">Specialises in Gaussian process emulation for climate models, with applications in IPCC-aligned projections.</div>
+        <div class="speaker-avatar has-image">
+          <img src="Andrew%20Jaffe.jpeg" alt="Prof. Andrew Jaffe">
+          <span class="speaker-initials">A.J</span>
+        </div>
+        <div class="speaker-bio-hover">Lecturer.</div>
         <div class="speaker-info">
-          <div class="speaker-name">Prof. B. Scholar</div>
-          <div class="speaker-aff">Institute TBC, South Africa</div>
-          <div class="speaker-tags"><span class="speaker-tag">GPS</span><span class="speaker-tag">CLIMATE</span></div>
+          <div class="speaker-name">Prof. Andrew Jaffe</div>
+          <div class="speaker-aff">Imperial College London (ICL)</div>
+          <div class="speaker-tags"><span class="speaker-tag">ICL</span></div>
         </div>
       </div>
+
       <div class="speaker-card" tabindex="0">
-        <div class="speaker-avatar">C·L</div>
-        <div class="speaker-bio-hover">Works on uncertainty-aware deep learning and conformal prediction in safety-critical systems and healthcare AI.</div>
+        <div class="speaker-avatar has-image">
+          <img src="Bruce%20Bassett.jpg" alt="Prof. Bruce Bassett">
+          <span class="speaker-initials">B.B</span>
+        </div>
+        <div class="speaker-bio-hover">Lecturer.</div>
         <div class="speaker-info">
-          <div class="speaker-name">Dr. C. Lecturer</div>
-          <div class="speaker-aff">TBC University</div>
-          <div class="speaker-tags"><span class="speaker-tag">UQ</span><span class="speaker-tag">HEALTHCARE</span></div>
+          <div class="speaker-name">Prof. Bruce Bassett</div>
+          <div class="speaker-aff">Wits University &amp; University of Cape Town (UCT)</div>
+          <div class="speaker-tags"><span class="speaker-tag">WITS</span><span class="speaker-tag">UCT</span></div>
         </div>
       </div>
+
       <div class="speaker-card" tabindex="0">
-        <div class="speaker-avatar">D·P</div>
-        <div class="speaker-bio-hover">Expert in probabilistic programming languages — Pyro, Stan, NumPyro — and automatic differentiation for Bayesian modelling at scale.</div>
+        <div class="speaker-avatar has-image">
+          <img src="Nadeem.jpg" alt="Dr. Nadeem Oozeer">
+          <span class="speaker-initials">N.O</span>
+        </div>
+        <div class="speaker-bio-hover">Lecturer.</div>
         <div class="speaker-info">
-          <div class="speaker-name">Dr. D. Practitioner</div>
-          <div class="speaker-aff">Industry TBC</div>
-          <div class="speaker-tags"><span class="speaker-tag">PYMC</span><span class="speaker-tag">STAN</span></div>
+          <div class="speaker-name">Dr. Nadeem Oozeer</div>
+          <div class="speaker-aff">SARAO</div>
+          <div class="speaker-tags"><span class="speaker-tag">SARAO</span></div>
         </div>
       </div>
-      <div class="speaker-card" tabindex="0">
-        <div class="speaker-avatar">E·K</div>
-        <div class="speaker-bio-hover">Leads research on neural density estimators and active learning for SBI in astrophysics and cosmology.</div>
-        <div class="speaker-info">
-          <div class="speaker-name">Prof. E. Kaur</div>
-          <div class="speaker-aff">TBC Observatory</div>
-          <div class="speaker-tags"><span class="speaker-tag">ASTROPHYSICS</span><span class="speaker-tag">ACTIVE LEARNING</span></div>
-        </div>
-      </div>
-      <div class="speaker-card" tabindex="0">
-        <div class="speaker-avatar">F·M</div>
-        <div class="speaker-bio-hover">Focuses on Bayesian optimisation, drug discovery pipelines, and multi-fidelity emulation for pharmaceutical research.</div>
-        <div class="speaker-info">
-          <div class="speaker-name">Dr. F. Mbeki</div>
-          <div class="speaker-aff">Pharma Research TBC</div>
-          <div class="speaker-tags"><span class="speaker-tag">BAYESOPT</span><span class="speaker-tag">DRUG DISCOVERY</span></div>
-        </div>
-      </div>
+    </div>
+
+    <div style="margin-top:40px;">
+      <div class="section-label" style="margin-bottom:10px;">Organising Committee</div>
+      <ul class="apps-list">
+        <li>Robert Lees (WITS)</li>
+        <li>Linda Camara (WITS)</li>
+        <li>Daniesha Govender (WITS)</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -717,7 +754,9 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
           <li>Name and contact of one academic referee</li>
           <li>Scholarship request (if applicable), with supporting statement</li>
         </ul>
-        <div style="margin-top:32px;"><button class="btn btn-turquoise" onclick="fakeDownload()">↓ Download Call for Participation</button></div>
+        <div style="margin-top:32px;">
+          <a class="btn btn-turquoise" href="https://forms.gle/ZY8T4qpLLpbAvV657" target="_blank" rel="noopener noreferrer">Apply via Online Form</a>
+        </div>
       </div>
       <div>
         <h3 style="font-size:0.63rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;">Application Checklist</h3>
@@ -732,10 +771,10 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         </ul>
         <div class="key-dates">
           <div class="key-dates-title">Key Dates</div>
-          <div class="date-item"><span>Application Portal Opens</span><span>TBC 2026</span></div>
-          <div class="date-item"><span>Application Deadline</span><span>TBC 2026</span></div>
-          <div class="date-item"><span>Decisions Communicated</span><span>TBC 2026</span></div>
-          <div class="date-item"><span>Workshop Begins</span><span>TBC 2026</span></div>
+          <div class="date-item"><span>Application Portal Opens</span><span>15 March 2026</span></div>
+          <div class="date-item"><span>Application Deadline</span><span>31 May 2026</span></div>
+          <div class="date-item"><span>Decisions Communicated</span><span>30 June 2026</span></div>
+          <div class="date-item"><span>Workshop Dates</span><span>16&ndash;20 November 2026</span></div>
         </div>
       </div>
     </div>
@@ -750,7 +789,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <div class="faq-list">
       <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Do I need prior experience with Bayesian inference? <span class="accordion-icon">+</span></button><div class="accordion-body">No. We start from first principles. However, some familiarity with probability theory, linear algebra, and Python programming is expected.</div></div>
       <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Will there be hands-on coding sessions? <span class="accordion-icon">+</span></button><div class="accordion-body">Yes. Each day includes practical labs with Python. We'll use Stan, PyMC, the SBI toolkit, GPyTorch, and other modern probabilistic programming tools.</div></div>
-      <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Are there scholarships available? <span class="accordion-icon">+</span></button><div class="accordion-body">Yes. Full and partial travel bursaries are available, prioritising applicants from low- and middle-income countries and particularly those affiliated with African institutions.</div></div>
+      <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Are there scholarships available? <span class="accordion-icon">+</span></button><div class="accordion-body">Full scholarships are available for African students.</div></div>
       <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">What should I bring? <span class="accordion-icon">+</span></button><div class="accordion-body">A laptop with Python 3.10+ and conda/pip installed. We'll provide setup instructions and environment files in advance.</div></div>
       <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">Is remote attendance possible? <span class="accordion-icon">+</span></button><div class="accordion-body">No. This is an in-person workshop. However, we aim to record lecture sessions (subject to speaker consent) and make them available to registered participants afterward.</div></div>
       <div class="accordion-item"><button class="accordion-trigger" onclick="toggleAccordion(this)">What's the difference between the workshop days and the research day? <span class="accordion-icon">+</span></button><div class="accordion-body">Days 1–3 are the core graduate workshop, covering foundational to advanced material accessible to PhD students. Day 4 is an advanced research session with contributed talks, collaborative problem-solving, and cutting-edge methods — aimed at active researchers and practitioners.</div></div>
@@ -770,7 +809,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         <div class="footer-col-title">Navigate</div>
         <ul class="footer-links">
           <li><a href="#about">About</a></li><li><a href="#learn">What You'll Learn</a></li>
-          <li><a href="#programme">Programme</a></li><li><a href="#speakers">Speakers</a></li>
+          <li><a href="#programme">Programme</a></li><li><a href="#speakers">Lecturers</a></li>
           <li><a href="#who">Who Should Attend</a></li><li><a href="#applications">Apply</a></li><li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
@@ -790,22 +829,6 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
   </div>
 </footer>
 
-<!-- ════ MODAL ════ -->
-<div id="modal-register" class="modal-backdrop" role="dialog" aria-modal="true">
-  <div class="modal">
-    <div class="modal-header"><h2>Register Your Interest</h2><button class="modal-close" onclick="closeModal('register')">✕</button></div>
-    <div class="modal-body">
-      <p class="lead">Express your interest to receive updates, call for participation announcements, and priority application reminders.</p>
-      <div class="form-group"><label for="reg-name">Full Name</label><input type="text" id="reg-name" placeholder="e.g. Ada Lovelace"/></div>
-      <div class="form-group"><label for="reg-email">Email</label><input type="email" id="reg-email" placeholder="you@institution.edu"/></div>
-      <div class="form-group"><label for="reg-aff">Affiliation</label><input type="text" id="reg-aff" placeholder="University or Organisation"/></div>
-      <div class="form-group"><label for="reg-interest">Primary Interest</label><div class="select-wrap"><select id="reg-interest"><option value="">— Select —</option><option>Bayesian Inference &amp; MCMC</option><option>Simulation-Based Inference</option><option>Neural Density Estimation</option><option>Gaussian Processes &amp; Emulation</option><option>Uncertainty Quantification</option><option>Probabilistic Programming</option><option>Scientific Applications</option><option>Other</option></select></div></div>
-      <button class="btn btn-fill" style="width:100%;justify-content:center;margin-top:8px" onclick="submitRegister()">Submit →</button>
-      <p style="font-size:0.7rem;opacity:0.5;margin-top:16px;text-align:center;">By submitting you agree to receive event-related emails.</p>
-    </div>
-  </div>
-</div>
-
 <script>
 (function(){const s=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',s);document.getElementById('themeToggle').textContent=s==='dark'?'☀':'☽';})();
 document.getElementById('themeToggle').addEventListener('click',function(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);this.textContent=n==='dark'?'☀':'☽';});
@@ -819,11 +842,6 @@ const hb=document.getElementById('hamburger'),mm=document.getElementById('mobile
 hb.addEventListener('click',()=>{const o=mm.classList.toggle('open');hb.setAttribute('aria-expanded',o);});
 function closeMobile(){mm.classList.remove('open');hb.setAttribute('aria-expanded','false');}
 
-function openModal(id){const b=document.getElementById('modal-'+id);b.classList.add('open');document.body.style.overflow='hidden';const c=b.querySelector('.modal-close');if(c)c.focus();}
-function closeModal(id){document.getElementById('modal-'+id).classList.remove('open');document.body.style.overflow='';}
-document.querySelectorAll('.modal-backdrop').forEach(b=>b.addEventListener('click',e=>{if(e.target===b){b.classList.remove('open');document.body.style.overflow='';}}));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});});
-function submitRegister(){const n=document.getElementById('reg-name').value.trim(),e=document.getElementById('reg-email').value.trim();if(!n||!e){alert('Please enter your name and email.');return;}closeModal('register');setTimeout(()=>alert('Thank you, '+n+'! We\'ll be in touch at '+e+'.'),200);}
 
 function switchDay(id,btn){document.querySelectorAll('.day-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');btn.setAttribute('aria-selected','true');document.getElementById(id).classList.add('active');}
 
@@ -834,8 +852,6 @@ function toggleAccordion(tr){const b=tr.nextElementSibling;const ic=tr.querySele
 function toggleCheck(li){const c=li.classList.toggle('checked');li.setAttribute('aria-checked',c);}
 document.querySelectorAll('.checklist li').forEach(li=>li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleCheck(li);}}));
 
-function fakeDownload(){const c=['AI, UNCERTAINTY & SIMULATION','Bayesian Methods and Neural Inference at Scale','Graduate Workshop + Research Session | Mauritius, 2026','═══════════════════════════════════════════════════════','','CALL FOR PARTICIPATION','','Modern AI systems increasingly interact with scientific simulators,','high-dimensional data, and safety-critical decisions. Yet many AI models','remain poorly calibrated and unable to reason under uncertainty.','','This 3-day graduate workshop develops the foundations of AI under uncertainty,','from Bayesian inference to simulation-based inference (SBI) and neural emulation.','','WHAT YOU WILL LEARN','─────────────────────','• Bayesian inference as a framework for scientific learning','• Variational inference and amortized neural inference','• Likelihood-free inference and simulation-based inference (SBI)','• Neural density estimation and posterior estimation','• Gaussian process and neural emulators','• Calibration, proper scoring rules, and reliability diagnostics','','PROGRAMME','─────────','Day 1: Bayesian Foundations for AI','Day 2: Neural Inference & Probabilistic Deep Learning','Day 3: Simulation-Based Inference & Emulation','Day 4: Advanced Research Session — Frontiers','','WHO SHOULD ATTEND','─────────────────','• PhD students and postdoctoral researchers','• Advanced MSc students in statistics, ML, applied maths, physics','• Researchers working with complex simulators','','CONTACT: contact@tbc.ac.uk','','Organised by UK & South African teams (AIMS and partners).','© 2026'].join('\n');
-  const blob=new Blob([c],{type:'text/plain'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='AI-Uncertainty-Simulation-CFP-2026.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
 
 document.querySelectorAll('.speaker-card').forEach(card=>{card.addEventListener('focus',()=>{const b=card.querySelector('.speaker-bio-hover');if(b)b.style.opacity='1';});card.addEventListener('blur',()=>{const b=card.querySelector('.speaker-bio-hover');if(b)b.style.opacity='0';});});
 </script>
