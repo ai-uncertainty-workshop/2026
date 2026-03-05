@@ -69,8 +69,8 @@ body {
 }
 .btn-turquoise { border-color: var(--turquoise); color: var(--turquoise); }
 .btn-turquoise:hover { background: var(--turquoise); color: white; }
-.btn-ocean { border-color: var(--ocean); color: var(--ocean); }
-.btn-ocean:hover { background: var(--ocean); color: white; }
+.btn-ocean { border-color: var(--ocean); background: var(--ocean); color: white; }
+.btn-ocean:hover { background: var(--navy); border-color: var(--navy); color: white; }
 .btn-fill { background: var(--turquoise); border-color: var(--turquoise); color: white; font-weight: 600; }
 .btn-fill:hover { background: var(--teal); border-color: var(--teal); }
 .btn-gold { background: var(--gold); border-color: var(--gold); color: white; font-weight: 600; }
@@ -108,7 +108,7 @@ body {
 /* ── HERO ── */
 #hero {
   min-height: 100vh;
-  background: #001b24 url('mauritius-hero.jpg') center/cover no-repeat;
+  background: #001b24 url('mauritius-hero.jpg') center 60%/cover no-repeat;
   padding-top: var(--nav-h);
   position: relative;
   overflow: hidden;
@@ -125,8 +125,8 @@ body {
 
 .hero-contours { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0.55; }
 .hero-content { position:relative; z-index:5; padding:60px 0 140px; }
-.hero-loc { font-family:var(--ff-b); font-size:0.68rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--ocean); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
-.hero-loc::before { content:''; width:32px; height:1px; background:var(--ocean); }
+.hero-loc { font-family:var(--ff-b); font-size:0.68rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
+.hero-loc::before { content:''; width:32px; height:1px; background:rgba(255,255,255,0.9); }
 .hero-title { font-family:var(--ff-d); font-size:clamp(3rem,7vw,6.5rem); font-weight:300; line-height:1.0; color:white; letter-spacing:-0.01em; margin-bottom:18px; text-shadow: 0 2px 24px rgba(0,184,212,0.25); }
 .hero-title em { font-style:italic; color:#FFF9E6; }
 .hero-sub1 { font-family:var(--ff-b); font-size:0.72rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.85); margin-bottom:8px; }
