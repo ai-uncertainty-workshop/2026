@@ -108,18 +108,22 @@ body {
 /* ── HERO ── */
 #hero {
   min-height: 100vh;
-  background: linear-gradient(180deg, #A8D5E2 0%, #00B8D4 55%, #0097A7 100%);
+  background: #001b24 url('mauritius-hero.jpg') center/cover no-repeat;
   padding-top: var(--nav-h);
   position: relative;
   overflow: hidden;
   display: flex; align-items: center;
 }
-.hero-sky { position: absolute; top: 0; left: 0; right: 0; height: 35%; background: linear-gradient(180deg, #B8E5F2 0%, #8DD4E8 100%); opacity: 0.7; }
-.hero-shallow { position: absolute; top: 32%; left: 0; right: 0; height: 30%; background: #4DD0E1; opacity: 0.6; clip-path: ellipse(80% 65% at 52% 50%); }
-.hero-mid { position: absolute; bottom: 20%; left: 0; right: 0; height: 35%; background: #00ACC1; opacity: 0.5; }
-.hero-deep { position: absolute; bottom: 0; left: 0; right: 0; height: 22%; background: #00838F; opacity: 0.7; }
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,77,90,0.55) 0%, rgba(0,120,140,0.35) 55%, rgba(0,0,0,0.45) 100%);
+  z-index: 1;
+}
+.hero-sky, .hero-shallow, .hero-mid, .hero-deep { display: none; }
 
-.hero-contours { position:absolute; inset:0; pointer-events:none; z-index:2; }
+.hero-contours { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0.55; }
 .hero-content { position:relative; z-index:5; padding:60px 0 140px; }
 .hero-loc { font-family:var(--ff-b); font-size:0.68rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--ocean); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
 .hero-loc::before { content:''; width:32px; height:1px; background:var(--ocean); }
@@ -411,26 +415,6 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
   <div class="hero-shallow" aria-hidden="true"></div>
   <div class="hero-mid" aria-hidden="true"></div>
   <div class="hero-deep" aria-hidden="true"></div>
-
-  <!-- Islands -->
-  <svg style="position:absolute;top:26%;left:50%;transform:translateX(-50%);width:min(540px,88%);opacity:0.85;pointer-events:none;z-index:3" aria-hidden="true" viewBox="0 0 540 190">
-    <ellipse cx="305" cy="130" rx="132" ry="46" fill="#2D5016" opacity="0.75"/>
-    <ellipse cx="280" cy="115" rx="98" ry="36" fill="#3D6B1F"/>
-    <ellipse cx="318" cy="107" rx="74" ry="29" fill="#4A7F28"/>
-    <ellipse cx="305" cy="133" rx="138" ry="49" fill="#E8D4A8" opacity="0.18"/>
-    <ellipse cx="105" cy="123" rx="74" ry="27" fill="#2D5016" opacity="0.65"/>
-    <ellipse cx="95" cy="114" rx="57" ry="22" fill="#4A7F28" opacity="0.8"/>
-    <ellipse cx="105" cy="126" rx="80" ry="29" fill="#E8D4A8" opacity="0.15"/>
-    <line x1="268" y1="107" x2="257" y2="71" stroke="#1A2E0A" stroke-width="2.5"/>
-    <ellipse cx="251" cy="70" rx="13" ry="5.5" fill="#1A2E0A" opacity="0.8" transform="rotate(-17,251,70)"/>
-    <ellipse cx="263" cy="65" rx="12" ry="5" fill="#2D4515" opacity="0.8" transform="rotate(12,263,65)"/>
-    <line x1="310" y1="102" x2="322" y2="68" stroke="#1A2E0A" stroke-width="2"/>
-    <ellipse cx="330" cy="66" rx="12" ry="5" fill="#1A2E0A" opacity="0.8" transform="rotate(20,330,66)"/>
-    <ellipse cx="316" cy="62" rx="11" ry="4.5" fill="#2D4515" opacity="0.75" transform="rotate(-6,316,62)"/>
-    <line x1="91" y1="113" x2="82" y2="83" stroke="#1A2E0A" stroke-width="2"/>
-    <ellipse cx="77" cy="82" rx="11" ry="4.5" fill="#1A2E0A" opacity="0.7" transform="rotate(-13,77,82)"/>
-    <ellipse cx="88" cy="78" rx="10" ry="4" fill="#2D4515" opacity="0.7" transform="rotate(8,88,78)"/>
-  </svg>
 
   <!-- Contours -->
   <svg class="hero-contours" aria-hidden="true" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
