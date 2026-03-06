@@ -126,13 +126,13 @@ body {
 
 .hero-contours { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0.55; }
 .hero-content { position:relative; z-index:5; padding:60px 0 140px; }
-.hero-loc { font-family:var(--ff-b); font-size:clamp(1.4rem, 2.2vw, 1.8rem); font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
+.hero-loc { font-family:var(--ff-b); font-size:clamp(1.12rem, 1.76vw, 1.44rem); font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
 .hero-loc::before { content:''; width:32px; height:1px; background:rgba(255,255,255,0.9); }
 .hero-title { font-family:var(--ff-d); font-size:clamp(3rem,7vw,6.5rem); font-weight:300; line-height:1.0; color:white; letter-spacing:-0.01em; margin-bottom:18px; text-shadow: 0 2px 24px rgba(0,184,212,0.25); }
 .hero-title em { font-style:italic; color:#FFF9E6; }
-.hero-sub1 { font-family:var(--ff-b); font-size:0.83rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.85); margin-bottom:8px; }
-.hero-sub2 { font-family:var(--ff-b); font-size:0.83rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
-.hero-sub3 { font-family:var(--ff-b); font-size:0.78rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:36px; }
+.hero-sub1 { font-family:var(--ff-b); font-size:0.96rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.85); margin-bottom:8px; }
+.hero-sub2 { font-family:var(--ff-b); font-size:0.96rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.hero-sub3 { font-family:var(--ff-b); font-size:0.9rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:36px; }
 #tagline-wrap { height:30px; overflow:hidden; margin-bottom:48px; }
 #tagline { font-family:var(--ff-d); font-style:italic; font-size:1.32rem; color:rgba(255,255,255,0.75); transition:opacity .45s,transform .45s; }
 #tagline.fade-out { opacity:0; transform:translateY(-8px); }
@@ -345,18 +345,18 @@ body {
 .faq-list { max-width:800px; }
 
 /* ── FOOTER ── */
-footer { background:var(--sky); border-top:1px solid var(--border); padding:72px 0 36px; color: var(--ocean); }
+footer { background:var(--sky); border-top:1px solid var(--border); padding:72px 0 36px; color: var(--ocean); font-size:16px; }
 .footer-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:48px; margin-bottom:56px; }
 @media(max-width:640px){ .footer-grid{grid-template-columns:1fr;gap:32px;} }
 .footer-brand { font-family:var(--ff-d); font-size:1.5rem; font-weight:300; color:var(--ocean); }
 .footer-brand em { font-style:italic; color:var(--turquoise); }
-.footer-tagline { margin-top:10px; font-size:var(--body-text); opacity:0.85; font-weight:300; line-height:1.6; color:var(--ocean); }
+.footer-tagline { margin-top:10px; font-size:16px; opacity:0.85; font-weight:300; line-height:1.6; color:var(--ocean); }
 .footer-col-title { font-size:0.63rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--ocean); margin-bottom:18px; }
 .footer-links { list-style:none; }
 .footer-links li+li { margin-top:10px; }
-.footer-links a { color:var(--ocean); text-decoration:none; font-size:var(--body-text); font-weight:300; transition:var(--t); }
+.footer-links a { color:var(--ocean); text-decoration:none; font-size:16px; font-weight:300; transition:var(--t); }
 .footer-links a:hover { color:var(--navy); }
-.footer-bottom { border-top:1px solid var(--border); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:var(--body-text); opacity:0.85; font-weight:300; color:var(--ocean); }
+.footer-bottom { border-top:1px solid var(--border); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:16px; opacity:0.85; font-weight:300; color:var(--ocean); }
 
 /* ── MODALS ── */
 .modal-backdrop { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,97,107,0.75); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px; }
