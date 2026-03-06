@@ -48,7 +48,7 @@
   --border-h:   rgba(77,208,225,0.5);
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; font-size: 110%; }
 body {
   font-family: var(--ff-b); background: var(--bg); color: var(--text);
   line-height: 1.65; overflow-x: hidden;
@@ -108,7 +108,7 @@ body {
 /* ── HERO ── */
 #hero {
   min-height: 100vh;
-  background: #001b24 url('mauritius-hero.jpg') center 40%/cover no-repeat;
+  background: #001b24 url('mauritius-hero.jpg') center 20%/cover no-repeat;
   padding-top: var(--nav-h);
   position: relative;
   overflow: hidden;
@@ -125,7 +125,7 @@ body {
 
 .hero-contours { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0.55; }
 .hero-content { position:relative; z-index:5; padding:60px 0 140px; }
-.hero-loc { font-family:var(--ff-b); font-size:0.68rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
+.hero-loc { font-family:var(--ff-b); font-size:clamp(1.4rem, 2.2vw, 1.8rem); font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
 .hero-loc::before { content:''; width:32px; height:1px; background:rgba(255,255,255,0.9); }
 .hero-title { font-family:var(--ff-d); font-size:clamp(3rem,7vw,6.5rem); font-weight:300; line-height:1.0; color:white; letter-spacing:-0.01em; margin-bottom:18px; text-shadow: 0 2px 24px rgba(0,184,212,0.25); }
 .hero-title em { font-style:italic; color:#FFF9E6; }
