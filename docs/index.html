@@ -364,6 +364,11 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 .footer-links a { color:var(--ocean); text-decoration:none; font-size:16px; font-weight:300; transition:var(--t); }
 .footer-links a:hover { color:var(--navy); }
 .footer-bottom { border-top:1px solid var(--border); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:16px; opacity:0.85; font-weight:300; color:var(--ocean); }
+.footer-logos { display:flex; gap:20px; align-items:center; }
+.footer-logo { height:40px; width:auto; opacity:0.8; transition:var(--t); }
+.footer-logo-imperial { height:24px; }
+.footer-logo-mind { height:48px; }
+.footer-logo:hover { opacity:1; }
 
 /* ── MODALS ── */
 .modal-backdrop { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,97,107,0.75); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px; }
@@ -820,7 +825,10 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
       </div>
     </div>
     <div class="footer-bottom">
-      <span>Imperial College London and the University of the Witwatersrand.</span>
+      <div class="footer-logos">
+        <img src="Imperial_College_London_new_logo.png" alt="Imperial College London" class="footer-logo footer-logo-imperial">
+        <img src="MIND logo-02.png" alt="MIND" class="footer-logo footer-logo-mind">
+      </div>
       <span>© 2026</span>
     </div>
   </div>
