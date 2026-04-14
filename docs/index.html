@@ -126,16 +126,21 @@ body {
 .hero-sky, .hero-shallow, .hero-mid, .hero-deep { display: none; }
 
 .hero-contours { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0.55; }
+.hero-logos { position:absolute; top:calc(var(--nav-h) + 24px); right:32px; z-index:5; display:flex; align-items:center; gap:16px; padding:12px 16px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.22); backdrop-filter:blur(10px); }
+.hero-logo { width:auto; display:block; }
+.hero-logo-imperial { height:24px; }
+.hero-logo-mind { height:48px; }
 .hero-content { position:relative; z-index:5; padding:60px 0 140px; }
+.hero-kicker { font-family:var(--ff-b); font-size:clamp(1.12rem, 1.76vw, 1.44rem); font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:18px; max-width:none; width:100%; line-height:1.35; }
 .hero-loc { font-family:var(--ff-b); font-size:clamp(1.12rem, 1.76vw, 1.44rem); font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
 .hero-loc::before { content:''; width:32px; height:1px; background:rgba(255,255,255,0.9); }
 .hero-title { font-family:var(--ff-d); font-size:clamp(3rem,7vw,6.5rem); font-weight:300; line-height:1.0; color:white; letter-spacing:-0.01em; margin-bottom:18px; text-shadow: 0 2px 24px rgba(0,184,212,0.25); }
 .hero-title em { font-style:italic; color:#FFF9E6; }
 .hero-sub1 { font-family:var(--ff-b); font-size:1.1rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.85); margin-bottom:8px; }
-.hero-sub2 { font-family:var(--ff-b); font-size:1.1rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.hero-sub2 { font-family:var(--ff-b); font-size:clamp(1.18rem, 1.9vw, 1.34rem); font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
 .hero-sub3 { font-family:var(--ff-b); font-size:1.05rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:36px; }
-#tagline-wrap { height:30px; overflow:hidden; margin-bottom:48px; }
-#tagline { font-family:var(--ff-d); font-style:italic; font-size:1.32rem; color:rgba(255,255,255,0.75); transition:opacity .45s,transform .45s; }
+#tagline-wrap { min-height:40px; overflow:hidden; margin-bottom:48px; display:flex; align-items:flex-start; }
+#tagline { font-family:var(--ff-d); font-style:italic; font-size:1.32rem; line-height:1.35; padding-bottom:4px; color:rgba(255,255,255,0.75); transition:opacity .45s,transform .45s; }
 #tagline.fade-out { opacity:0; transform:translateY(-8px); }
 #tagline.fade-in  { opacity:1; transform:translateY(0); }
 .hero-ctas { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:64px; }
@@ -298,9 +303,10 @@ body {
 .speaker-link { color:inherit; text-decoration:none; }
 .speaker-link:hover { color:var(--turquoise); }
 .speaker-aff  { font-size:0.7rem; opacity:0.6; margin-bottom:10px; color:var(--text-light); }
-.speaker-bio-hover { position:absolute; inset:0; background:rgba(0,151,167,0.97); color:white; padding:24px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--ff-d); font-style:italic; font-weight:300; font-size:0.9rem; line-height:1.65; opacity:0; transition:opacity .3s; pointer-events:none; }
+.speaker-info { position:relative; z-index:2; }
+.speaker-bio-hover { position:absolute; top:0; left:0; right:0; height:148px; z-index:1; background:rgba(0,151,167,0.97); color:white; padding:24px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--ff-d); font-style:italic; font-weight:300; font-size:0.9rem; line-height:1.65; opacity:0; transition:opacity .3s; pointer-events:none; }
 .speaker-card:hover .speaker-bio-hover,
-.speaker-card:focus-within .speaker-bio-hover { opacity:1; pointer-events:auto; }
+.speaker-card:focus-within .speaker-bio-hover { opacity:1; }
 
 /* ── APPLICATIONS ── */
 .apps-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
@@ -387,7 +393,8 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 .select-wrap { position:relative; }
 .select-wrap::after { content:'↓'; position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--turquoise); pointer-events:none; }
 
-@media(max-width:600px){ .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} }
+@media(max-width:900px){ .hero-logos{top:calc(var(--nav-h) + 18px);right:20px;padding:10px 12px;gap:12px;} .hero-logo-imperial{height:20px;} .hero-logo-mind{height:40px;} .hero-kicker{letter-spacing:0.08em;} }
+@media(max-width:600px){ .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} .hero-logos{position:relative;top:auto;right:auto;display:inline-flex;margin:20px 0 24px;} .hero-content{padding-top:24px;} .hero-kicker{font-size:1rem;letter-spacing:0.06em;line-height:1.4;} #tagline-wrap{min-height:46px;} }
 </style>
 </head>
 
@@ -431,6 +438,10 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
   <div class="hero-shallow" aria-hidden="true"></div>
   <div class="hero-mid" aria-hidden="true"></div>
   <div class="hero-deep" aria-hidden="true"></div>
+  <div class="hero-logos" aria-label="Partner logos">
+    <img src="Imperial_College_London_new_logo.png" alt="Imperial College London" class="hero-logo hero-logo-imperial">
+    <img src="MIND logo-02.png" alt="MIND" class="hero-logo hero-logo-mind">
+  </div>
 
   <!-- Contours -->
   <svg class="hero-contours" aria-hidden="true" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
@@ -470,9 +481,10 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
   <div class="container">
     <div class="hero-content">
       <div class="hero-loc">Mauritius &nbsp;&middot;&nbsp; 16&ndash;20 November 2026</div>
+      <p class="hero-kicker">Imperial College London &amp; Wits University Present</p>
       <h1 class="hero-title">AI, Uncertainty<br/>&amp; <em>Simulation</em></h1>
-      <p class="hero-sub1">Bayesian Methods &amp; Neural Inference at Scale</p>
-      <p class="hero-sub2">Graduate Workshop &amp; Research Days</p>
+      <p class="hero-sub1">Bayesian Methods &amp; Neural Inference</p>
+      <p class="hero-sub2">Graduate Lectures &amp; Research Workshop</p>
       <p class="hero-sub3">Full Scholarships Available for African Students</p>
       <div id="tagline-wrap" aria-live="polite">
         <p id="tagline" class="fade-in">AI beyond point prediction</p>
@@ -508,12 +520,12 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <div class="about-grid">
       <div>
         <div class="section-label">About the Workshop</div>
-        <h2 class="section-title" id="about-title">Bayesian Methods and<br/><em>Neural Inference at Scale</em></h2>
+        <h2 class="section-title" id="about-title">Bayesian Methods and<br/><em>Neural Inference</em></h2>
         <div class="about-lead">
           <p>Modern AI systems increasingly interact with scientific simulators, high-dimensional data, and safety-critical decisions. Yet many AI models remain poorly calibrated, overconfident, and unable to reason coherently under uncertainty.</p>
           <p>This graduate workshop develops the mathematical and computational foundations of AI under uncertainty, beginning with Bayesian inference and building toward modern simulation-based inference (SBI) and neural emulation.</p>
           <p>Participants will learn how probabilistic reasoning, approximate inference, and surrogate modelling form the backbone of scalable and reliable AI systems — especially when explicit likelihoods are unavailable but simulators are abundant.</p>
-          <p>The workshop culminates in an advanced research session on frontier methods in neural SBI, adaptive simulation, and calibration.</p>
+          <p>The week culminates in hands-on JEDI-style team research project applying the techniques covered in the lectures in a variety of fields such as astronomy, medicine and engineering.</p>
         </div>
         <div class="about-quote">
           <p>"Uncertainty as infrastructure for reliable AI."</p>
@@ -555,7 +567,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <div class="section-label">Learning Outcomes</div>
     <h2 class="section-title" id="learn-title">What You Will <em>Learn</em></h2>
     <p style="font-size:var(--body-text);color:var(--text-light);margin-bottom:32px;line-height:1.75;font-weight:300;max-width:68ch;">
-      Participants will develop a coherent understanding of probabilistic AI, with emphasis on conceptual clarity, mathematical grounding, and computational practice.
+      Participants will develop a coherent understanding of the foundations blending rigorous statistics with AI, with an emphasis on conceptual clarity, mathematical grounding, and computational practice.
     </p>
     <ul class="learn-list">
       <li>Bayesian inference as a framework for scientific learning</li>
@@ -638,12 +650,24 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <div class="speaker-rail" role="list">
       <div class="speaker-card" tabindex="0">
         <div class="speaker-avatar has-image">
+          <img src="Bruce%20Bassett.jpg" alt="Prof. Bruce Bassett">
+          <span class="speaker-initials">B.B</span>
+        </div>
+        <div class="speaker-bio-hover">Lecturer.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Prof. Bruce Bassett</div>
+          <div class="speaker-aff">Wits University &amp; University of Cape Town</div>
+        </div>
+      </div>
+
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar has-image">
           <img src="alan%20heavens.jpeg" alt="Prof. Alan Heavens">
           <span class="speaker-initials">A.H</span>
         </div>
         <div class="speaker-bio-hover">Lecturer.</div>
         <div class="speaker-info">
-          <div class="speaker-name"><a class="speaker-link" href="https://profiles.imperial.ac.uk/a.heavens" target="_blank" rel="noopener noreferrer">Prof. Alan Heavens</a></div>
+          <div class="speaker-name"><a class="speaker-link" href="https://profiles.imperial.ac.uk/a.heavens/about" target="_blank" rel="noopener noreferrer">Prof. Alan Heavens</a></div>
           <div class="speaker-aff">Imperial College London</div>
         </div>
       </div>
@@ -662,24 +686,12 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 
       <div class="speaker-card" tabindex="0">
         <div class="speaker-avatar has-image">
-          <img src="Bruce%20Bassett.jpg" alt="Prof. Bruce Bassett">
-          <span class="speaker-initials">B.B</span>
-        </div>
-        <div class="speaker-bio-hover">Lecturer.</div>
-        <div class="speaker-info">
-          <div class="speaker-name"><a class="speaker-link" href="https://science.uct.ac.za/department-mathematics/contacts/bruce-bassett" target="_blank" rel="noopener noreferrer">Prof. Bruce Bassett</a></div>
-          <div class="speaker-aff">Wits University &amp; University of Cape Town</div>
-        </div>
-      </div>
-
-      <div class="speaker-card" tabindex="0">
-        <div class="speaker-avatar has-image">
           <img src="Nadeem.jpg" alt="Dr. Nadeem Oozeer">
           <span class="speaker-initials">N.O</span>
         </div>
         <div class="speaker-bio-hover">Lecturer.</div>
         <div class="speaker-info">
-          <div class="speaker-name"><a class="speaker-link" href="https://www.sarao.ac.za/dr-nadeem-oozeer-data-scientist/" target="_blank" rel="noopener noreferrer">Dr. Nadeem Oozeer</a></div>
+          <div class="speaker-name">Dr. Nadeem Oozeer</div>
           <div class="speaker-aff">SARAO</div>
         </div>
       </div>
@@ -688,9 +700,9 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <div style="margin-top:40px;">
       <div class="section-label" style="margin-bottom:10px;">Organising Committee</div>
       <ul class="apps-list">
-        <li>Robert Lees (Wits University)</li>
         <li>Linda Camara (Wits University)</li>
         <li>Daniesha Govender (Wits University)</li>
+        <li>Robert Lees (Wits University)</li>
       </ul>
     </div>
   </div>
@@ -714,7 +726,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         </ul>
         <div style="margin-top:28px;padding:20px 24px;background:white;border-left:3px solid var(--gold);box-shadow:0 1px 4px rgba(0,184,212,0.08);">
           <p style="font-size:var(--body-text);font-weight:300;line-height:1.7;color:var(--text-light);margin:0;">
-            <strong style="color:var(--text);">Prerequisites:</strong> Basic familiarity with probability and linear algebra is expected. Coding examples will be in Python. Prior exposure to Bayesian inference or deep learning is helpful but not required.
+            <strong style="color:var(--text);">Prerequisites:</strong> Familiarity with statistics, linear algebra and coding is expected. Coding examples will be in Python. Prior exposure to Bayesian inference or deep learning is helpful but not required.
           </p>
         </div>
       </div>
@@ -731,7 +743,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
             <div class="benefit-text">A unified framework connecting Bayesian stats → neural SBI → emulation</div>
           </div>
           <div class="benefit-item">
-            <div class="benefit-text">Access to a global network of researchers at the frontier</div>
+            <div class="benefit-text">Build a global network of researchers interested in the frontiers of AI in science.</div>
           </div>
         </div>
       </div>
@@ -797,7 +809,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <div class="footer-grid">
       <div>
         <div class="footer-brand">AI, Uncertainty <em>&amp; Simulation</em></div>
-        <div class="footer-tagline">Bayesian Methods &amp; Neural Inference at Scale<br/>Mauritius, 2026</div>
+        <div class="footer-tagline">Bayesian Methods &amp; Neural Inference<br/>Mauritius, 2026</div>
       </div>
       <div>
         <div class="footer-col-title">Navigate</div>
