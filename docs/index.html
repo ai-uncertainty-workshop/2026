@@ -131,7 +131,6 @@ body {
 .hero-logo-imperial { height:24px; }
 .hero-logo-mind { height:48px; }
 .hero-content { position:relative; z-index:5; padding:60px 0 140px; }
-.hero-kicker { font-family:var(--ff-b); font-size:clamp(1.12rem, 1.76vw, 1.44rem); font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:18px; max-width:none; width:100%; line-height:1.35; }
 .hero-loc { font-family:var(--ff-b); font-size:clamp(1.12rem, 1.76vw, 1.44rem); font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
 .hero-loc::before { content:''; width:32px; height:1px; background:rgba(255,255,255,0.9); }
 .hero-title { font-family:var(--ff-d); font-size:clamp(3rem,7vw,6.5rem); font-weight:300; line-height:1.0; color:white; letter-spacing:-0.01em; margin-bottom:18px; text-shadow: 0 2px 24px rgba(0,184,212,0.25); }
@@ -393,8 +392,8 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 .select-wrap { position:relative; }
 .select-wrap::after { content:'↓'; position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--turquoise); pointer-events:none; }
 
-@media(max-width:900px){ .hero-logos{top:calc(var(--nav-h) + 18px);right:20px;padding:10px 12px;gap:12px;} .hero-logo-imperial{height:20px;} .hero-logo-mind{height:40px;} .hero-kicker{letter-spacing:0.08em;} }
-@media(max-width:600px){ .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} .hero-logos{position:relative;top:auto;right:auto;display:inline-flex;margin:20px 0 24px;} .hero-content{padding-top:24px;} .hero-kicker{font-size:1rem;letter-spacing:0.06em;line-height:1.4;} #tagline-wrap{min-height:46px;} }
+@media(max-width:900px){ .hero-logos{top:calc(var(--nav-h) + 18px);right:20px;padding:10px 12px;gap:12px;} .hero-logo-imperial{height:20px;} .hero-logo-mind{height:40px;} }
+@media(max-width:600px){ .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} .hero-logos{position:relative;top:auto;right:auto;display:inline-flex;margin:20px 0 24px;} .hero-content{padding-top:24px;} #tagline-wrap{min-height:46px;} }
 </style>
 </head>
 
@@ -481,7 +480,6 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
   <div class="container">
     <div class="hero-content">
       <div class="hero-loc">Mauritius &nbsp;&middot;&nbsp; 16&ndash;20 November 2026</div>
-      <p class="hero-kicker">Imperial College London &amp; Wits University Present</p>
       <h1 class="hero-title">AI, Uncertainty<br/>&amp; <em>Simulation</em></h1>
       <p class="hero-sub1">Bayesian Methods &amp; Neural Inference</p>
       <p class="hero-sub2">Graduate Lectures &amp; Research Workshop</p>
@@ -525,7 +523,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
           <p>Modern AI systems increasingly interact with scientific simulators, high-dimensional data, and safety-critical decisions. Yet many AI models remain poorly calibrated, overconfident, and unable to reason coherently under uncertainty.</p>
           <p>This graduate workshop develops the mathematical and computational foundations of AI under uncertainty, beginning with Bayesian inference and building toward modern simulation-based inference (SBI) and neural emulation.</p>
           <p>Participants will learn how probabilistic reasoning, approximate inference, and surrogate modelling form the backbone of scalable and reliable AI systems — especially when explicit likelihoods are unavailable but simulators are abundant.</p>
-          <p>The week culminates in hands-on JEDI-style team research project applying the techniques covered in the lectures in a variety of fields such as astronomy, medicine and engineering.</p>
+          <p>The week culminates in hands-on JEDI-style team research projects applying the techniques covered in the lectures in a variety of fields such as astronomy, medicine and engineering.</p>
         </div>
         <div class="about-quote">
           <p>"Uncertainty as infrastructure for reliable AI."</p>
@@ -567,7 +565,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <div class="section-label">Learning Outcomes</div>
     <h2 class="section-title" id="learn-title">What You Will <em>Learn</em></h2>
     <p style="font-size:var(--body-text);color:var(--text-light);margin-bottom:32px;line-height:1.75;font-weight:300;max-width:68ch;">
-      Participants will develop a coherent understanding of the foundations blending rigorous statistics with AI, with an emphasis on conceptual clarity, mathematical grounding, and computational practice.
+      Participants will develop a coherent understanding of the foundations to blend rigorous statistics with AI, with an emphasis on conceptual clarity, mathematical grounding, and computational practice.
     </p>
     <ul class="learn-list">
       <li>Bayesian inference as a framework for scientific learning</li>
@@ -655,7 +653,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         </div>
         <div class="speaker-bio-hover">Lecturer.</div>
         <div class="speaker-info">
-          <div class="speaker-name">Prof. Bruce Bassett</div>
+          <div class="speaker-name"><a class="speaker-link" href="https://www.linkedin.com/in/bruce-bassett-32698229/" target="_blank" rel="noopener noreferrer">Prof. Bruce Bassett</a></div>
           <div class="speaker-aff">Wits University &amp; University of Cape Town</div>
         </div>
       </div>
@@ -691,7 +689,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         </div>
         <div class="speaker-bio-hover">Lecturer.</div>
         <div class="speaker-info">
-          <div class="speaker-name">Dr. Nadeem Oozeer</div>
+          <div class="speaker-name"><a class="speaker-link" href="https://www.linkedin.com/in/nadeem-oozeer-100776b2/" target="_blank" rel="noopener noreferrer">Dr. Nadeem Oozeer</a></div>
           <div class="speaker-aff">SARAO</div>
         </div>
       </div>
