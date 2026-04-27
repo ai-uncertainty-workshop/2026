@@ -126,10 +126,11 @@ body {
 .hero-sky, .hero-shallow, .hero-mid, .hero-deep { display: none; }
 
 .hero-contours { position:absolute; inset:0; pointer-events:none; z-index:2; opacity:0.55; }
-.hero-logos { position:absolute; top:calc(var(--nav-h) + 24px); right:32px; z-index:5; display:flex; align-items:center; gap:16px; padding:12px 16px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.22); backdrop-filter:blur(10px); }
+.hero-logos { position:absolute; top:calc(var(--nav-h) + 44px); right:32px; z-index:5; display:flex; align-items:center; gap:16px; padding:12px 16px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.22); backdrop-filter:blur(10px); }
 .hero-logo { width:auto; display:block; }
-.hero-logo-imperial { height:24px; }
-.hero-logo-mind { height:48px; }
+.hero-logo-imperial { height:23px; }
+.hero-logo-mind { height:53px; }
+.hero-logo-ukri { height:51px; }
 .hero-content { position:relative; z-index:5; padding:60px 0 140px; }
 .hero-loc { font-family:var(--ff-b); font-size:clamp(1.12rem, 1.76vw, 1.44rem); font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.9); margin-bottom:28px; display:flex; align-items:center; gap:14px; }
 .hero-loc::before { content:''; width:32px; height:1px; background:rgba(255,255,255,0.9); }
@@ -302,6 +303,7 @@ body {
 .speaker-link { color:inherit; text-decoration:none; }
 .speaker-link:hover { color:var(--turquoise); }
 .speaker-aff  { font-size:0.7rem; opacity:0.6; margin-bottom:10px; color:var(--text-light); }
+.speaker-interests { font-size:0.66rem; line-height:1.45; color:var(--text-light); opacity:0.78; }
 .speaker-info { position:relative; z-index:2; }
 .speaker-bio-hover { position:absolute; top:0; left:0; right:0; height:148px; z-index:1; background:rgba(0,151,167,0.97); color:white; padding:24px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--ff-d); font-style:italic; font-weight:300; font-size:0.9rem; line-height:1.65; opacity:0; transition:opacity .3s; pointer-events:none; }
 .speaker-card:hover .speaker-bio-hover,
@@ -311,8 +313,10 @@ body {
 .apps-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
 @media(max-width:768px){ .apps-grid{grid-template-columns:1fr;} }
 .apps-list { list-style:none; }
-.apps-list li { padding:13px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:14px; font-size:var(--body-text); font-weight:300; line-height:1.65; color:var(--text); }
-.apps-list li::before { content:'→'; color:var(--turquoise); flex-shrink:0; font-weight:600; }
+.apps-list li { position:relative; padding:13px 0 13px 32px; border-bottom:1px solid var(--border); font-size:var(--body-text); font-weight:300; line-height:1.65; color:var(--text); }
+.apps-list li::before { content:'→'; position:absolute; left:0; top:13px; color:var(--turquoise); font-weight:600; }
+.apps-list a { color:var(--teal); text-decoration:underline; text-underline-offset:3px; }
+.apps-list a:hover { color:var(--navy); }
 #speakers .apps-list li { font-size:16px; }
 #speakers .apps-list li { font-size:16px; }
 .checklist { list-style:none; margin-top:14px; }
@@ -370,7 +374,8 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 .footer-logos { display:flex; gap:20px; align-items:center; }
 .footer-logo { height:40px; width:auto; opacity:0.8; transition:var(--t); }
 .footer-logo-imperial { height:24px; }
-.footer-logo-mind { height:48px; }
+.footer-logo-mind { height:58px; }
+.footer-logo-ukri { height:54px; }
 .footer-logo:hover { opacity:1; }
 
 /* ── MODALS ── */
@@ -392,8 +397,8 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 .select-wrap { position:relative; }
 .select-wrap::after { content:'↓'; position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--turquoise); pointer-events:none; }
 
-@media(max-width:900px){ .hero-logos{top:calc(var(--nav-h) + 18px);right:20px;padding:10px 12px;gap:12px;} .hero-logo-imperial{height:20px;} .hero-logo-mind{height:40px;} }
-@media(max-width:600px){ .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} .hero-logos{position:relative;top:auto;right:auto;display:inline-flex;margin:20px 0 24px;} .hero-content{padding-top:24px;} #tagline-wrap{min-height:46px;} }
+@media(max-width:900px){ .hero-logos{top:calc(var(--nav-h) + 36px);right:20px;padding:10px 13px;gap:12px;} .hero-logo-imperial{height:21px;} .hero-logo-mind{height:46px;} .hero-logo-ukri{height:44px;} }
+@media(max-width:600px){ .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} .hero-logos{position:relative;top:auto;right:auto;bottom:auto;display:inline-flex;margin:20px 0 24px;} .hero-content{padding-top:24px;} #tagline-wrap{min-height:46px;} }
 </style>
 </head>
 
@@ -440,6 +445,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
   <div class="hero-logos" aria-label="Partner logos">
     <img src="Imperial_College_London_new_logo.png" alt="Imperial College London" class="hero-logo hero-logo-imperial">
     <img src="MIND logo-02.png" alt="MIND" class="hero-logo hero-logo-mind">
+    <img src="UKRI-Logo_Horiz-RGB.png" alt="UKRI" class="hero-logo hero-logo-ukri">
   </div>
 
   <!-- Contours -->
@@ -655,6 +661,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         <div class="speaker-info">
           <div class="speaker-name"><a class="speaker-link" href="https://www.linkedin.com/in/bruce-bassett-32698229/" target="_blank" rel="noopener noreferrer">Prof. Bruce Bassett</a></div>
           <div class="speaker-aff">Wits University &amp; University of Cape Town</div>
+          <div class="speaker-interests">Artificial Intelligence, Bayesian Inference, Medical AI, Natural Language Processing</div>
         </div>
       </div>
 
@@ -667,6 +674,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         <div class="speaker-info">
           <div class="speaker-name"><a class="speaker-link" href="https://profiles.imperial.ac.uk/a.heavens/about" target="_blank" rel="noopener noreferrer">Prof. Alan Heavens</a></div>
           <div class="speaker-aff">Imperial College London</div>
+          <div class="speaker-interests">Cosmology, Bayesian Inference, Weak Lensing</div>
         </div>
       </div>
 
@@ -679,6 +687,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         <div class="speaker-info">
           <div class="speaker-name"><a class="speaker-link" href="https://profiles.imperial.ac.uk/a.jaffe" target="_blank" rel="noopener noreferrer">Prof. Andrew Jaffe</a></div>
           <div class="speaker-aff">Imperial College London</div>
+          <div class="speaker-interests">Bayesian Inference, Cosmology, Cosmic Microwave Background</div>
         </div>
       </div>
 
@@ -718,7 +727,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         </div>
         <ul class="apps-list">
           <li>PhD students and postdoctoral researchers</li>
-          <li>Advanced MSc students in statistics, ML, applied mathematics, physics, computational biology, or engineering</li>
+          <li>MSc students in statistics, ML, applied mathematics, physics, computational biology, or engineering</li>
           <li>Researchers working with complex simulators (climate, cosmology, biology, epidemiology)</li>
           <li>Anyone interested in building reliable AI systems under uncertainty</li>
         </ul>
@@ -764,7 +773,8 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
           <li>A short statement of motivation (maximum 500 words)</li>
           <li>A current CV or academic résumé</li>
           <li>A brief description of your research background and how this workshop relates to your interests</li>
-          <li>The name and contact details of one academic referee</li>
+          <li>A letter of agreement from your supervisor</li>
+          <li>A letter of reference sent directly to <a href="mailto:ai.uncertainty.workshop@gmail.com">us</a> by the application deadline (please indicate the referee's name in your application)</li>
         </ul>
         <h4 style="font-size:0.63rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin:22px 0 10px;">Financial Support</h4>
         <p style="font-size:var(--body-text);color:var(--text-light);line-height:1.7;font-weight:300;">
@@ -828,6 +838,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
       <div class="footer-logos">
         <img src="Imperial_College_London_new_logo.png" alt="Imperial College London" class="footer-logo footer-logo-imperial">
         <img src="MIND logo-02.png" alt="MIND" class="footer-logo footer-logo-mind">
+        <img src="UKRI-Logo_Horiz-RGB.png" alt="UKRI" class="footer-logo footer-logo-ukri">
       </div>
       <span>© 2026</span>
     </div>
