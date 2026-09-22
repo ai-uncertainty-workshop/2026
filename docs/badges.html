@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Attendee badges — AI, Uncertainty &amp; Simulation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="badges.css">
+  <script src="badges-assets.js" defer></script>
+  <script src="badges.js" defer></script>
+</head>
+<body>
+  <header><a href="index.html">AI, Uncertainty <em>&amp; Simulation</em></a><span>Organiser tools · Mauritius 2026</span></header>
+  <main>
+    <p class="eyebrow">Workshop stationery</p>
+    <h1>Attendee badges</h1>
+    <p class="intro">A little piece of Mauritius, ready to wear. Create 98 × 120 mm badges with the same design on both sides and a space to write hobbies by hand.</p>
+    <div class="workspace">
+      <section class="panel" aria-labelledby="details-title">
+        <h2 id="details-title">Prepare your badges</h2>
+        <p class="hint">Enter each attendee’s details below. First names print large, with the surname underneath. Leave the hobbies space blank for handwriting.</p>
+        <div id="attendees"></div>
+        <button id="add-attendee" class="secondary" type="button">+ Add attendee</button>
+        <template id="attendee-template">
+          <fieldset class="attendee-card">
+            <legend>Attendee</legend>
+            <div class="name-fields">
+              <div><label data-label="firstName">First name <span class="hint">(required)</span></label><input data-field="firstName" type="text" maxlength="180" placeholder="Alex" autocomplete="off" required></div>
+              <div><label data-label="surname">Surname</label><input data-field="surname" type="text" maxlength="180" placeholder="Morgan" autocomplete="off"></div>
+            </div>
+            <label data-label="affiliation">Affiliation <span class="hint">(optional)</span></label>
+            <input data-field="affiliation" type="text" maxlength="180" placeholder="University or organisation" autocomplete="off">
+            <label data-label="role">Role <span class="hint">(optional)</span></label>
+            <input data-field="role" type="text" maxlength="180" placeholder="Attendee" autocomplete="off">
+            <button type="button" class="remove-attendee secondary">Remove attendee</button>
+          </fieldset>
+        </template>
+        <label for="format">PDF layout</label>
+        <select id="format">
+          <option value="fold">A4 cut and fold · one attendee per sheet</option>
+          <option value="artwork">Printer artwork · one badge per page</option>
+          <option value="a4">A4 duplex sheets · two badges per sheet</option>
+        </select>
+        <p id="layout-help" class="hint"></p>
+        <button id="download" disabled>Download print PDF</button>
+        <p id="status" role="status" aria-live="polite">Loading badge artwork…</p>
+        <details><summary>Printing &amp; page access</summary>
+          <p>Cut and fold (default): print A4 portrait, single-sided, one page per sheet, at 100% / actual size. Turn off “Print on both sides”. The front is above an upside-down back on the same sheet.</p>
+          <p>Use the dashed side guides to crease halfway down the artwork, then cut at the outer crop marks to make a 98 × 240 mm strip. Fold at the crease with the printed sides facing out. Do not cut across the fold. The finished badge is 98 × 120 mm.</p>
+          <p>The alternative A4 duplex layout requires double-sided printing, flipping on the long edge, at actual size. The individual printer artwork option supplies separate front and back pages with 3 mm bleed.</p>
+          <p>The PDF uses high-quality 300 dpi RGB artwork. For a commercial print run, confirm the printer accepts RGB PDFs and 3 mm bleed.</p>
+          <p>This page is unlisted and asks search engines not to index it; it is not password protected. Attendee details stay in this browser tab and are not saved or sent to a server.</p>
+        </details>
+      </section>
+      <section class="preview-area" aria-labelledby="preview-title">
+        <div class="preview-heading"><h2 id="preview-title">Badge preview</h2><span>Front = back</span></div>
+        <canvas id="preview" role="img" aria-label="Sample attendee badge preview"></canvas>
+        <p class="hint">98 × 120 mm after trimming · preview excludes bleed</p>
+        <label for="preview-select">Preview attendee</label>
+        <select id="preview-select"></select>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
