@@ -70,34 +70,66 @@
     canvas.width = Math.ceil(artWidth * scale); canvas.height = Math.ceil(artHeight * scale);
     const ctx = canvas.getContext('2d'); ctx.scale(canvas.width / artWidth, canvas.height / artHeight); ctx.translate(bleed, bleed);
     ctx.fillStyle = '#fbf7f0'; ctx.fillRect(-bleed, -bleed, artWidth, artHeight);
-    const hero = assets[0], ratio = Math.max(artWidth / hero.width, 33 / hero.height);
-    ctx.save(); ctx.beginPath(); ctx.rect(-bleed,-bleed,artWidth,33); ctx.clip();
+    const heroHeight = 22;
+    const hero = assets[0], ratio = Math.max(artWidth / hero.width, (heroHeight + bleed) / hero.height);
+    ctx.save(); ctx.beginPath(); ctx.rect(-bleed,-bleed,artWidth,heroHeight + bleed); ctx.clip();
     ctx.drawImage(hero, badgeWidth / 2 - hero.width * ratio / 2, -bleed, hero.width * ratio, hero.height * ratio);
-    ctx.fillStyle = '#004d5a99'; ctx.fillRect(-bleed,-bleed,artWidth,33); ctx.restore();
-    fitText(ctx, 'MAURITIUS · 2026', 3, 4, 2.5, 'Jost, Arial', '600', '#ffffff');
-    fitText(ctx, 'AI, Uncertainty', 9, 8, 6.5, '"Cormorant Garamond", Georgia', '600', '#ffffff');
-    fitText(ctx, '& Simulation', 18, 8, 6.5, '"Cormorant Garamond", Georgia', '400', '#fff9e6');
-    ctx.fillStyle = '#00b8d4'; ctx.fillRect(-bleed,30,artWidth,1.2);
-    fitText(ctx, person.firstName, 32, 14, 11, 'Jost, Arial', '600', '#d65a00');
-    fitText(ctx, person.surname, 47, 8, 6, 'Jost, Arial', '400', '#004d5a');
-    fitText(ctx, person.affiliation, 56, 7, 3.8, 'Jost, Arial', '400', '#004d5a');
+    ctx.fillStyle = '#004d5a99'; ctx.fillRect(-bleed,-bleed,artWidth,heroHeight + bleed); ctx.restore();
+    fitText(ctx, 'MAURITIUS · 2026', 2, 3, 2.5, 'Jost, Arial', '600', '#ffffff');
+    fitText(ctx, 'AI, Uncertainty', 6, 6, 5, '"Cormorant Garamond", Georgia', '600', '#ffffff');
+    fitText(ctx, '& Simulation', 13, 6, 5, '"Cormorant Garamond", Georgia', '400', '#fff9e6');
+    ctx.fillStyle = '#00b8d4'; ctx.fillRect(-bleed,heroHeight,artWidth,1.2);
+    fitText(ctx, person.firstName, 26, 16, 11, 'Jost, Arial', '600', '#d65a00');
+    fitText(ctx, person.surname, 43, 9, 6, 'Jost, Arial', '400', '#004d5a');
+    fitText(ctx, person.affiliation, 54, 8, 3.8, 'Jost, Arial', '400', '#004d5a');
     fitText(ctx, person.role.toUpperCase(), 64, 5, 3, 'Jost, Arial', '600', '#006064');
-    ctx.fillStyle = '#ffffff'; ctx.fillRect(6, 70, 58, 10);
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(6, 71, 58, 11);
     ctx.font = '400 3px Jost, Arial'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#006064'; ctx.fillText('Hobbies', 8, 75);
+    ctx.fillStyle = '#006064'; ctx.fillText('Hobbies', 8, 76.5);
     ctx.strokeStyle = '#96bfc4'; ctx.lineWidth = .25;
-    ctx.beginPath(); ctx.moveTo(25, 77); ctx.lineTo(62, 77); ctx.stroke();
-    ctx.fillStyle = '#b77a3e'; ctx.fillRect(25,81,20,.35);
-    fitText(ctx, '16–20 November 2026', 81.5, 4, 2.6, 'Jost, Arial', '400', '#004d5a');
-    ctx.fillStyle = '#ffffff'; ctx.fillRect(-bleed,86,artWidth,22);
+    ctx.beginPath(); ctx.moveTo(25, 79); ctx.lineTo(62, 79); ctx.stroke();
+    ctx.fillStyle = '#b77a3e'; ctx.fillRect(25,83,20,.35);
+    fitText(ctx, '16–20 November 2026', 84.5, 4, 2.6, 'Jost, Arial', '400', '#004d5a');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(-bleed,90,artWidth,18);
     const slots = [[5,20],[28,16],[47,18]];
     assets.slice(1).forEach((img,i) => {
       const [x,w] = slots[i], r = Math.min(w / img.width, 4 / img.height);
-      ctx.drawImage(img,x+(w-img.width*r)/2,87+(4-img.height*r)/2,img.width*r,img.height*r);
+      ctx.drawImage(img,x+(w-img.width*r)/2,92+(4-img.height*r)/2,img.width*r,img.height*r);
     });
-    fitText(ctx, 'Emergency contact: Nadeem', 93, 3.4, 2.7, 'Jost, Arial', '600', '#004d5a');
-    fitText(ctx, 'WhatsApp: +27765041029', 96.4, 3.4, 2.7, 'Jost, Arial', '400', '#004d5a');
-    fitText(ctx, '+23052565554', 99.8, 3.4, 2.7, 'Jost, Arial', '400', '#004d5a');
+    // Leave a 4 mm white gap below the logos; extend the band through the bleed.
+    ctx.fillStyle = '#00b8d4'; ctx.fillRect(-bleed,100,artWidth,badgeHeight+bleed-100);
+    const contactLabel = 'Emergency Contact: Nadeem · ';
+    const contactNumbers = '+27765041029 · +23052565554';
+    const iconSize = 2.6, iconGap = .6;
+    let contactSize = 1.8;
+    ctx.font = `400 ${contactSize}px Jost, Arial`;
+    // Keep the footer on one line, inside the 3 mm side margins.
+    const textWidth = ctx.measureText(contactLabel).width + ctx.measureText(contactNumbers).width;
+    if (textWidth + iconSize + iconGap > badgeWidth - 6) {
+      contactSize *= (badgeWidth - 6 - iconSize - iconGap) / textWidth;
+      ctx.font = `400 ${contactSize}px Jost, Arial`;
+    }
+    const labelWidth = ctx.measureText(contactLabel).width;
+    const footerWidth = labelWidth + iconSize + iconGap + ctx.measureText(contactNumbers).width;
+    const footerX = (badgeWidth - footerWidth) / 2;
+    ctx.fillStyle = '#ffffff'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillText(contactLabel, footerX, 102.5);
+    // Vector phone-in-chat icon stays sharp in the preview and print PDF.
+    ctx.save(); ctx.translate(footerX + labelWidth, 102.5 - iconSize / 2);
+    ctx.scale(iconSize / 24, iconSize / 24);
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.7; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(3.8,17.6); ctx.lineTo(2,22); ctx.lineTo(7.1,20.6);
+    ctx.bezierCurveTo(14,24,22,19,22,11.7);
+    ctx.bezierCurveTo(22,6.1,17.5,2,12,2);
+    ctx.bezierCurveTo(4.5,2,-.1,10.4,3.8,17.6); ctx.closePath(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(8.1,6.6); ctx.lineTo(9.7,9.5); ctx.lineTo(8.4,10.9);
+    ctx.bezierCurveTo(9.3,13,11,14.7,13.2,15.6);
+    ctx.lineTo(14.6,14.2); ctx.lineTo(17.5,15.7);
+    ctx.bezierCurveTo(17.2,18.7,14.4,18.4,11.6,16.8);
+    ctx.bezierCurveTo(8.2,14.9,5.7,11.4,6.3,8.1);
+    ctx.lineTo(8.1,6.6); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    ctx.fillText(contactNumbers, footerX + labelWidth + iconSize + iconGap, 102.5);
     return canvas;
   }
   function update(preferredId) {
