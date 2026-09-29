@@ -78,23 +78,26 @@
     fitText(ctx, 'AI, Uncertainty', 9, 8, 6.5, '"Cormorant Garamond", Georgia', '600', '#ffffff');
     fitText(ctx, '& Simulation', 18, 8, 6.5, '"Cormorant Garamond", Georgia', '400', '#fff9e6');
     ctx.fillStyle = '#00b8d4'; ctx.fillRect(-bleed,30,artWidth,1.2);
-    fitText(ctx, person.firstName, 34, 16, 11, 'Jost, Arial', '600', '#d65a00');
-    fitText(ctx, person.surname, 51, 9, 6, 'Jost, Arial', '400', '#004d5a');
-    fitText(ctx, person.affiliation, 62, 8, 3.8, 'Jost, Arial', '400', '#004d5a');
-    fitText(ctx, person.role.toUpperCase(), 72, 5, 3, 'Jost, Arial', '600', '#006064');
-    ctx.fillStyle = '#ffffff'; ctx.fillRect(6, 79, 58, 11);
+    fitText(ctx, person.firstName, 32, 14, 11, 'Jost, Arial', '600', '#d65a00');
+    fitText(ctx, person.surname, 47, 8, 6, 'Jost, Arial', '400', '#004d5a');
+    fitText(ctx, person.affiliation, 56, 7, 3.8, 'Jost, Arial', '400', '#004d5a');
+    fitText(ctx, person.role.toUpperCase(), 64, 5, 3, 'Jost, Arial', '600', '#006064');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(6, 70, 58, 10);
     ctx.font = '400 3px Jost, Arial'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#006064'; ctx.fillText('Hobbies', 8, 84.5);
+    ctx.fillStyle = '#006064'; ctx.fillText('Hobbies', 8, 75);
     ctx.strokeStyle = '#96bfc4'; ctx.lineWidth = .25;
-    ctx.beginPath(); ctx.moveTo(25, 87); ctx.lineTo(62, 87); ctx.stroke();
-    ctx.fillStyle = '#b77a3e'; ctx.fillRect(25,91,20,.35);
-    fitText(ctx, '16–20 November 2026', 92, 5, 2.6, 'Jost, Arial', '400', '#004d5a');
-    ctx.fillStyle = '#ffffff'; ctx.fillRect(-bleed,98,artWidth,10);
+    ctx.beginPath(); ctx.moveTo(25, 77); ctx.lineTo(62, 77); ctx.stroke();
+    ctx.fillStyle = '#b77a3e'; ctx.fillRect(25,81,20,.35);
+    fitText(ctx, '16–20 November 2026', 81.5, 4, 2.6, 'Jost, Arial', '400', '#004d5a');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(-bleed,86,artWidth,22);
     const slots = [[5,20],[28,16],[47,18]];
     assets.slice(1).forEach((img,i) => {
       const [x,w] = slots[i], r = Math.min(w / img.width, 4 / img.height);
-      ctx.drawImage(img,x+(w-img.width*r)/2,99+(4-img.height*r)/2,img.width*r,img.height*r);
+      ctx.drawImage(img,x+(w-img.width*r)/2,87+(4-img.height*r)/2,img.width*r,img.height*r);
     });
+    fitText(ctx, 'Emergency contact: Nadeem', 93, 3.4, 2.7, 'Jost, Arial', '600', '#004d5a');
+    fitText(ctx, 'WhatsApp: +27765041029', 96.4, 3.4, 2.7, 'Jost, Arial', '400', '#004d5a');
+    fitText(ctx, '+23052565554', 99.8, 3.4, 2.7, 'Jost, Arial', '400', '#004d5a');
     return canvas;
   }
   function update(preferredId) {
@@ -107,7 +110,7 @@
       $('preview-select').value = p.id;
       const art = badge(p), preview = $('preview'); preview.width = Math.round(badgeWidth*scale); preview.height = Math.round(badgeHeight*scale);
       preview.getContext('2d').drawImage(art,bleed/artWidth*art.width,bleed/artHeight*art.height,badgeWidth/artWidth*art.width,badgeHeight/artHeight*art.height,0,0,preview.width,preview.height);
-      preview.setAttribute('aria-label', `Front and back badge for ${p.name}, ${p.affiliation}, ${p.role}, with a blank line to write hobbies`);
+      preview.setAttribute('aria-label', `Front and back badge for ${p.name}, ${p.affiliation}, ${p.role}, with a blank line to write hobbies. Emergency contact: Nadeem. WhatsApp: +27765041029. Additional number: +23052565554.`);
       $('download').disabled = false;
       $('download').textContent = people.length ? 'Download print PDF' : 'Download sample PDF';
       $('status').textContent = people.length ? `${people.length} badge${people.length === 1 ? '' : 's'} ready.` : 'Download the sample, or enter attendee details to create your badges.';
