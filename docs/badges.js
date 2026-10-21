@@ -2,6 +2,7 @@
 (() => {
   const $ = id => document.getElementById(id);
   const scale = 300 / 25.4;
+  const printScale = 600 / 25.4;
   const badgeWidth = 70, badgeHeight = 105, bleed = 3;
   const artWidth = badgeWidth + bleed * 2, artHeight = badgeHeight + bleed * 2;
   const sample = { id: 'sample', firstName: 'Alex', surname: 'Morgan', name: 'Alex Morgan', affiliation: 'University name', role: 'Attendee' };
@@ -65,9 +66,9 @@
     ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     wrapped.forEach((line, i) => ctx.fillText(line, badgeWidth / 2, y + height / 2 + (i - (wrapped.length - 1) / 2) * size * 1.2));
   }
-  function badge(person) {
+  function badge(person, resolution = scale) {
     const canvas = document.createElement('canvas');
-    canvas.width = Math.ceil(artWidth * scale); canvas.height = Math.ceil(artHeight * scale);
+    canvas.width = Math.ceil(artWidth * resolution); canvas.height = Math.ceil(artHeight * resolution);
     const ctx = canvas.getContext('2d'); ctx.scale(canvas.width / artWidth, canvas.height / artHeight); ctx.translate(bleed, bleed);
     ctx.fillStyle = '#fbf7f0'; ctx.fillRect(-bleed, -bleed, artWidth, artHeight);
     const heroHeight = 22;
@@ -79,7 +80,7 @@
     fitText(ctx, 'AI, Uncertainty', 6, 6, 5, '"Cormorant Garamond", Georgia', '600', '#ffffff');
     fitText(ctx, '& Simulation', 13, 6, 5, '"Cormorant Garamond", Georgia', '400', '#fff9e6');
     ctx.fillStyle = '#00b8d4'; ctx.fillRect(-bleed,heroHeight,artWidth,1.2);
-    fitText(ctx, person.firstName, 26, 16, 11, 'Jost, Arial', '600', '#d65a00');
+    fitText(ctx, person.firstName, 26, 16, 11, 'Jost, Arial', '600', '#c62828');
     fitText(ctx, person.surname, 43, 9, 6, 'Jost, Arial', '400', '#004d5a');
     fitText(ctx, person.affiliation, 54, 8, 3.8, 'Jost, Arial', '400', '#004d5a');
     fitText(ctx, person.role.toUpperCase(), 64, 5, 3, 'Jost, Arial', '600', '#006064');
@@ -149,18 +150,29 @@
     } catch (e) { $('status').textContent = e.message; $('download').disabled = true; }
   }
   const pt = mm => (mm * 72 / 25.4).toFixed(4);
-  // Small binary PDF writer: the exact preview artwork is embedded at 300 dpi.
+  // Small binary PDF writer: embed 600 dpi RGB artwork without JPEG losses.
   // All offsets are byte offsets; text is rasterised, preserving accented names.
-  function makePDF(artworks, format) {
+  async function makePDF(artworks, format) {
     const folded = format === 'fold', a4 = format === 'a4', sheet = folded || a4;
     const enc = new TextEncoder(), objects = [null,null], pageIDs = [];
     const add = content => { objects.push(typeof content === 'string' ? enc.encode(content) : content); return objects.length; };
     const join = parts => { const out = new Uint8Array(parts.reduce((n,p)=>n+p.length,0)); let at=0; parts.forEach(p=>{out.set(p,at);at+=p.length;}); return out; };
     const stream = (dict, data) => join([enc.encode(`<< ${dict} /Length ${data.length} >>\nstream\n`),data,enc.encode('\nendstream')]);
-    const images = artworks.map(c => {
-      const bytes = Uint8Array.from(atob(c.toDataURL('image/jpeg', .98).split(',')[1]), c => c.charCodeAt(0));
-      return add(stream(`/Type /XObject /Subtype /Image /Width ${c.width} /Height ${c.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode`,bytes));
-    });
+    const images = [];
+    for (const c of artworks) {
+      const rgba = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+      const rgb = new Uint8Array(c.width * c.height * 3);
+      for (let src = 0, dst = 0; src < rgba.length; src += 4) {
+        rgb[dst++] = rgba[src]; rgb[dst++] = rgba[src + 1]; rgb[dst++] = rgba[src + 2];
+      }
+      // PDF FlateDecode accepts a zlib stream. Older browsers can embed raw RGB.
+      const compressed = typeof CompressionStream !== 'undefined';
+      const bytes = compressed
+        ? new Uint8Array(await new Response(new Blob([rgb]).stream().pipeThrough(new CompressionStream('deflate'))).arrayBuffer())
+        : rgb;
+      images.push(add(stream(`/Type /XObject /Subtype /Image /Width ${c.width} /Height ${c.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Interpolate false${compressed ? ' /Filter /FlateDecode' : ''}`, bytes)));
+      c.width = c.height = 0;
+    }
     const width = sheet ? 210 : badgeWidth + 12, height = sheet ? 297 : badgeHeight + 12, perSheet = a4 ? 2 : 1;
     for (let start=0;start<images.length;start+=perSheet) {
       let drawing = '', resources = '';
@@ -228,9 +240,9 @@
       const artworks=[];
       for(let i=0;i<people.length;i++) {
         $('status').textContent=`Preparing badge ${i+1} of ${people.length}…`;
-        await new Promise(resolve=>setTimeout(resolve,0)); artworks.push(badge(people[i]));
+        await new Promise(resolve=>setTimeout(resolve,0)); artworks.push(badge(people[i], printScale));
       }
-      const format=$('format').value, blob=makePDF(artworks,format), url=URL.createObjectURL(blob);
+      const format=$('format').value, blob=await makePDF(artworks,format), url=URL.createObjectURL(blob);
       const suffix = { fold: 'a4-cut-and-fold', a4: 'a4-duplex', artwork: 'print-artwork' }[format];
       const link=document.createElement('a'); link.href=url;link.download=`mauritius-2026-badges-${suffix}.pdf`;
       document.body.append(link); link.click(); link.remove();
