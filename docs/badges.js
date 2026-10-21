@@ -2,7 +2,7 @@
 (() => {
   const $ = id => document.getElementById(id);
   const scale = 300 / 25.4;
-  const printScale = 600 / 25.4;
+  const printScale = 1200 / 25.4;
   const badgeWidth = 70, badgeHeight = 105, bleed = 3;
   const artWidth = badgeWidth + bleed * 2, artHeight = badgeHeight + bleed * 2;
   const sample = { id: 'sample', firstName: 'Alex', surname: 'Morgan', name: 'Alex Morgan', affiliation: 'University name', role: 'Attendee' };
@@ -80,7 +80,7 @@
     fitText(ctx, 'AI, Uncertainty', 6, 6, 5, '"Cormorant Garamond", Georgia', '600', '#ffffff');
     fitText(ctx, '& Simulation', 13, 6, 5, '"Cormorant Garamond", Georgia', '400', '#fff9e6');
     ctx.fillStyle = '#00b8d4'; ctx.fillRect(-bleed,heroHeight,artWidth,1.2);
-    fitText(ctx, person.firstName, 26, 16, 11, 'Jost, Arial', '600', '#c62828');
+    fitText(ctx, person.firstName, 26, 16, 11, 'Jost, Arial', '600', '#ed1c24');
     fitText(ctx, person.surname, 43, 9, 6, 'Jost, Arial', '400', '#004d5a');
     fitText(ctx, person.affiliation, 54, 8, 3.8, 'Jost, Arial', '400', '#004d5a');
     fitText(ctx, person.role.toUpperCase(), 64, 5, 3, 'Jost, Arial', '600', '#006064');
@@ -92,9 +92,9 @@
     ctx.fillStyle = '#b77a3e'; ctx.fillRect(25,83,20,.35);
     fitText(ctx, '16–20 November 2026', 84.5, 4, 2.6, 'Jost, Arial', '400', '#004d5a');
     ctx.fillStyle = '#ffffff'; ctx.fillRect(-bleed,90,artWidth,18);
-    const slots = [[5,20],[28,16],[47,18]];
+    const slots = [[5,20],[26,20],[47,18]];
     assets.slice(1).forEach((img,i) => {
-      const [x,w] = slots[i], r = Math.min(w / img.width, 4 / img.height);
+      const [x,w] = slots[i], r = Math.min(w / img.width, (i === 1 ? 5 : 4) / img.height);
       ctx.drawImage(img,x+(w-img.width*r)/2,92+(4-img.height*r)/2,img.width*r,img.height*r);
     });
     // Leave a 4 mm white gap below the logos; extend the band through the bleed.
@@ -150,7 +150,7 @@
     } catch (e) { $('status').textContent = e.message; $('download').disabled = true; }
   }
   const pt = mm => (mm * 72 / 25.4).toFixed(4);
-  // Small binary PDF writer: embed 600 dpi RGB artwork without JPEG losses.
+  // Small binary PDF writer: embed 1200 dpi RGB artwork without JPEG losses.
   // All offsets are byte offsets; text is rasterised, preserving accented names.
   async function makePDF(artworks, format) {
     const folded = format === 'fold', a4 = format === 'a4', sheet = folded || a4;
