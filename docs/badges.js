@@ -92,10 +92,15 @@
     ctx.fillStyle = '#b77a3e'; ctx.fillRect(25,83,20,.35);
     fitText(ctx, '16–20 November 2026', 84.5, 4, 2.6, 'Jost, Arial', '400', '#004d5a');
     ctx.fillStyle = '#ffffff'; ctx.fillRect(-bleed,90,artWidth,18);
-    const slots = [[5,20],[26,20],[47,18]];
-    assets.slice(1).forEach((img,i) => {
-      const [x,w] = slots[i], r = Math.min(w / img.width, (i === 1 ? 5 : 4) / img.height);
-      ctx.drawImage(img,x+(w-img.width*r)/2,92+(4-img.height*r)/2,img.width*r,img.height*r);
+    const logos = assets.slice(1).map((img, i) => {
+      const ratio = Math.min((i === 1 ? 24 : i === 2 ? 18 : 20) / img.width, (i === 1 ? 6 : 4) / img.height);
+      return { img, width: img.width * ratio, height: img.height * ratio };
+    });
+    const logoGap = (63 - logos.reduce((sum, logo) => sum + logo.width, 0)) / (logos.length - 1);
+    let logoX = 3.5;
+    logos.forEach(({ img, width, height }) => {
+      ctx.drawImage(img, logoX, 94 - height / 2, width, height);
+      logoX += width + logoGap;
     });
     // Leave a 4 mm white gap below the logos; extend the band through the bleed.
     ctx.fillStyle = '#00b8d4'; ctx.fillRect(-bleed,100,artWidth,badgeHeight+bleed-100);
