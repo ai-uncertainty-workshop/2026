@@ -251,12 +251,12 @@ body {
 .tl-desc.open { display:block; }
 
 /* ── SPEAKERS ── */
-.speaker-rail { display:flex; gap:16px; overflow-x:auto; padding-bottom:16px; -webkit-overflow-scrolling:touch; scrollbar-width:thin; scrollbar-color:var(--turquoise) transparent; }
+.speaker-rail { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; max-width:840px; margin-inline:0; padding-bottom:16px; }
 .speaker-rail::-webkit-scrollbar { height:3px; }
 .speaker-rail::-webkit-scrollbar-thumb { background:var(--turquoise); }
-.speaker-card { flex-shrink:0; width:210px; background:white; border:1px solid var(--border); position:relative; overflow:hidden; cursor:default; transition:var(--t); box-shadow: 0 2px 8px rgba(0,184,212,0.08); }
+.speaker-card { min-width:0; width:100%; background:white; border:1px solid var(--border); position:relative; overflow:hidden; cursor:default; transition:var(--t); box-shadow: 0 2px 8px rgba(0,184,212,0.08); }
 .speaker-card:hover { border-color:var(--turquoise); box-shadow: 0 4px 16px rgba(0,184,212,0.18); }
-.speaker-avatar { width:100%; height:148px; display:flex; align-items:center; justify-content:center; font-family:var(--ff-d); font-size:2rem; font-weight:300; color:rgba(255,255,255,0.85); position:relative; overflow:hidden; }
+.speaker-avatar { width:100%; height:auto; aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-family:var(--ff-d); font-size:2rem; font-weight:300; color:rgba(255,255,255,0.85); position:relative; overflow:hidden; }
 
 /* Fallback gradients for cards without images */
 .speaker-card:nth-child(1) .speaker-avatar{background:linear-gradient(135deg, #00ACC1 0%, #0097A7 100%);}
@@ -266,11 +266,12 @@ body {
 .speaker-card:nth-child(5) .speaker-avatar{background:linear-gradient(135deg, #0097A7 0%, #00838F 100%);}
 .speaker-card:nth-child(6) .speaker-avatar{background:linear-gradient(135deg, #00B8D4 0%, #0097A7 100%);}
 
+.speaker-card .speaker-avatar.has-image { background:#eef2f2; }
 /* Image styling */
 .speaker-avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   position: absolute;
   top: 0;
@@ -305,7 +306,7 @@ body {
 .speaker-aff  { font-size:0.7rem; opacity:0.6; margin-bottom:10px; color:var(--text-light); }
 .speaker-interests { font-size:0.66rem; line-height:1.45; color:var(--text-light); opacity:0.78; }
 .speaker-info { position:relative; z-index:2; }
-.speaker-bio-hover { position:absolute; top:0; left:0; right:0; height:148px; z-index:1; background:rgba(0,151,167,0.97); color:white; padding:24px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--ff-d); font-style:italic; font-weight:300; font-size:0.9rem; line-height:1.65; opacity:0; transition:opacity .3s; pointer-events:none; }
+.speaker-bio-hover { position:absolute; top:0; left:0; right:0; height:auto; aspect-ratio:1; z-index:1; background:rgba(0,151,167,0.97); color:white; padding:24px; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--ff-d); font-style:italic; font-weight:300; font-size:0.9rem; line-height:1.65; opacity:0; transition:opacity .3s; pointer-events:none; }
 .speaker-card:hover .speaker-bio-hover,
 .speaker-card:focus-within .speaker-bio-hover { opacity:1; }
 
@@ -406,6 +407,11 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 .materials-panel { padding:28px 0 0; color:var(--text-light); }
 .materials-panel h3 { color:var(--text); margin-bottom:12px; }
 .materials-panel[hidden] { display:none; }
+@media(max-width:760px){ .speaker-rail{grid-template-columns:repeat(2,minmax(0,1fr));max-width:560px;} }
+@media(max-width:480px){ .speaker-rail{grid-template-columns:1fr;max-width:280px;} }
+/* Fill these portrait frames without letterboxing. */
+.speaker-avatar img[src="Nadeem.jpg"],
+.speaker-avatar img[src="Chris%20finlay.jpeg"] { object-fit:cover; object-position:center; }
 </style>
 </head>
 
@@ -751,7 +757,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         <div class="speaker-info">
           <div class="speaker-name">Dr. Chris Finlay</div>
           <div class="speaker-aff">EPFL</div>
-          <div class="speaker-interests">HPC Application Specialist</div>
+          <div class="speaker-interests">Probabilistic Computing, Radio interferometry and RFI removal</div>
         </div>
       </div>
     </div>
@@ -763,6 +769,14 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         <li>Prof. Alan Heavens</li>
         <li>Prof. Andrew Jaffe</li>
         <li>Dr. Nadeem Oozeer</li>
+      </ul>
+    </div>
+    <div style="margin-top:32px;">
+      <div class="section-label" style="margin-bottom:10px;">Local Organising Committee</div>
+      <ul class="apps-list">
+        <li>Linda Camara (Wits University)</li>
+        <li>Daniesha Govender (Wits University)</li>
+        <li>Robert Lees (Wits University)</li>
       </ul>
     </div>
   </div>
