@@ -399,6 +399,13 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 
 @media(max-width:900px){ .hero-logos{top:calc(var(--nav-h) + 24px);left:20px;right:20px;display:flex;justify-content:center;padding:10px 13px;gap:30px;} .hero-logo-imperial{height:21px;} .hero-logo-mind{height:46px;} .hero-logo-ukri{height:44px;} .hero-content{padding-top:142px;} }
 @media(max-width:600px){ #hero{display:block;} .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} .hero-logos{position:relative;top:auto;left:auto;right:auto;bottom:auto;display:flex;margin:20px auto 0; width:max-content; max-width:calc(100% - 40px); flex-wrap:wrap; justify-content:center;} .hero-content{padding-top:28px;} #tagline-wrap{min-height:46px;} }
+.materials-tabs { display:flex; gap:8px; border-bottom:2px solid var(--border); }
+.materials-tab { background:none; border:0; border-bottom:3px solid transparent; padding:14px 20px; margin-bottom:-2px; font:inherit; color:var(--text-light); cursor:pointer; }
+.materials-tab.active { color:var(--turquoise); border-bottom-color:var(--turquoise); }
+.materials-tab:focus-visible, .materials-panel:focus-visible { outline:2px solid var(--turquoise); outline-offset:4px; }
+.materials-panel { padding:28px 0 0; color:var(--text-light); }
+.materials-panel h3 { color:var(--text); margin-bottom:12px; }
+.materials-panel[hidden] { display:none; }
 </style>
 </head>
 
@@ -411,7 +418,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <ul class="nav-links" role="list">
       <li><a href="#about">About</a></li>
       <li><a href="#learn">What You'll Learn</a></li>
-      <li><a href="#programme">Programme</a></li>
+      <li><a href="#materials">Programme &amp; Resources</a></li>
       <li><a href="#speakers">Lecturers</a></li>
       <li><a href="#who">Who Should Attend</a></li>
       <li><a href="#applications">Apply</a></li>
@@ -428,7 +435,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 <div class="mobile-menu" id="mobileMenu">
   <a href="#about" onclick="closeMobile()">About</a>
   <a href="#learn" onclick="closeMobile()">What You'll Learn</a>
-  <a href="#programme" onclick="closeMobile()">Programme</a>
+  <a href="#materials" onclick="closeMobile()">Programme &amp; Resources</a>
   <a href="#speakers" onclick="closeMobile()">Lecturers</a>
   <a href="#who" onclick="closeMobile()">Who Should Attend</a>
   <a href="#applications" onclick="closeMobile()">Apply</a>
@@ -494,7 +501,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         <p id="tagline" class="fade-in">AI beyond point prediction</p>
       </div>
       <div class="hero-ctas">
-        <a href="#programme" class="btn btn-ocean">View Programme</a>
+        <a href="#materials" class="btn btn-ocean">Programme &amp; Resources</a>
         <a class="btn btn-fill" href="#applications">Apply to Attend</a>
       </div>
       <div class="scroll-cue" aria-hidden="true">
@@ -588,6 +595,25 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 </section>
 
 <!-- ════ PROGRAMME ════ -->
+<section id="materials" class="section" aria-labelledby="materials-title">
+  <div class="container">
+    <div class="section-label">Workshop documents</div>
+    <h2 class="section-title" id="materials-title">Programme &amp; <em>Resources</em></h2>
+    <p style="font-size:var(--body-text);color:var(--text-light);margin-bottom:24px;">Find the workshop programme and learning materials here.</p>
+    <div class="materials-tabs" role="tablist" aria-label="Workshop documents">
+      <button type="button" class="materials-tab active" id="programme-documents-tab" role="tab" aria-selected="true" aria-controls="programme-documents" tabindex="0">Programme</button>
+      <button type="button" class="materials-tab" id="resource-documents-tab" role="tab" aria-selected="false" aria-controls="resource-documents" tabindex="-1">Resources</button>
+    </div>
+    <div id="programme-documents" class="materials-panel" role="tabpanel" aria-labelledby="programme-documents-tab" tabindex="0">
+      <h3>Workshop programme</h3>
+      <p><a class="btn btn-ocean" href="https://docs.google.com/document/d/145oxRDwkyGKOOT9l3W-b6OIx-OGnyj2uQSPuC-Z-0qI/edit?usp=sharing" target="_blank" rel="noopener noreferrer">View programme (Google Docs)</a></p>
+    </div>
+    <div id="resource-documents" class="materials-panel" role="tabpanel" aria-labelledby="resource-documents-tab" tabindex="0" hidden>
+      <h3>Learning resources</h3>
+      <p>Links to lecture notes and workshop materials will be available here soon.</p>
+    </div>
+  </div>
+</section>
 <section id="programme" class="section" aria-labelledby="prog-title" hidden>
   <div class="container">
     <div class="section-label">Programme</div>
@@ -650,7 +676,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
   <div class="container">
     <div class="section-label">Lecturers</div>
     <h2 class="section-title" id="speakers-title">Lecturers</h2>
-    <p style="font-size:var(--body-text);color:var(--text-light);margin-bottom:36px;">Our lecturers and organising committee for AI, Uncertainty &amp; Simulation 2026.</p>
+    <p style="font-size:var(--body-text);color:var(--text-light);margin-bottom:36px;">Our lecturers for AI, Uncertainty &amp; Simulation 2026.</p>
     <div class="speaker-rail" role="list">
       <div class="speaker-card" tabindex="0">
         <div class="speaker-avatar has-image">
@@ -680,19 +706,6 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 
       <div class="speaker-card" tabindex="0">
         <div class="speaker-avatar has-image">
-          <img src="Andrew%20Jaffe.jpeg" alt="Prof. Andrew Jaffe">
-          <span class="speaker-initials">A.J</span>
-        </div>
-        <div class="speaker-bio-hover">Lecturer.</div>
-        <div class="speaker-info">
-          <div class="speaker-name"><a class="speaker-link" href="https://profiles.imperial.ac.uk/a.jaffe" target="_blank" rel="noopener noreferrer">Prof. Andrew Jaffe</a></div>
-          <div class="speaker-aff">Imperial College London</div>
-          <div class="speaker-interests">Bayesian Inference, Cosmology, Cosmic Microwave Background</div>
-        </div>
-      </div>
-
-      <div class="speaker-card" tabindex="0">
-        <div class="speaker-avatar has-image">
           <img src="Nadeem.jpg" alt="Dr. Nadeem Oozeer">
           <span class="speaker-initials">N.O</span>
         </div>
@@ -716,14 +729,40 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
           <div class="speaker-interests">AI for Healthcare, Quantum Algorithm Design, Data Science</div>
         </div>
       </div>
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar has-image">
+          <img src="yabebal.jpeg" alt="Dr. Yabebal Fantaye">
+          <span class="speaker-initials">Y.F</span>
+        </div>
+        <div class="speaker-bio-hover">Lecturer.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Dr. Yabebal Fantaye</div>
+          <div class="speaker-aff">Ten Academy</div>
+          <div class="speaker-interests">AI in Industry</div>
+        </div>
+      </div>
+
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar has-image">
+          <img src="Chris%20finlay.jpeg" alt="Dr. Chris Finlay">
+          <span class="speaker-initials">C.F</span>
+        </div>
+        <div class="speaker-bio-hover">Lecturer.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Dr. Chris Finlay</div>
+          <div class="speaker-aff">EPFL</div>
+          <div class="speaker-interests">HPC Application Specialist</div>
+        </div>
+      </div>
     </div>
 
     <div style="margin-top:40px;">
-      <div class="section-label" style="margin-bottom:10px;">Local Organising Committee</div>
+      <div class="section-label" style="margin-bottom:10px;">Organising Committee</div>
       <ul class="apps-list">
-        <li>Linda Camara (Wits University)</li>
-        <li>Daniesha Govender (Wits University)</li>
-        <li>Robert Lees (Wits University)</li>
+        <li>Prof. Bruce Bassett</li>
+        <li>Prof. Alan Heavens</li>
+        <li>Prof. Andrew Jaffe</li>
+        <li>Dr. Nadeem Oozeer</li>
       </ul>
     </div>
   </div>
@@ -837,7 +876,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
         <div class="footer-col-title">Navigate</div>
         <ul class="footer-links">
           <li><a href="#about">About</a></li><li><a href="#learn">What You'll Learn</a></li>
-          <li><a href="#programme">Programme</a></li><li><a href="#speakers">Lecturers</a></li>
+          <li><a href="#materials">Programme &amp; Resources</a></li><li><a href="#speakers">Lecturers</a></li>
           <li><a href="#who">Who Should Attend</a></li><li><a href="#applications">Apply</a></li><li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
@@ -884,6 +923,30 @@ document.querySelectorAll('.checklist li').forEach(li=>li.addEventListener('keyd
 
 
 document.querySelectorAll('.speaker-card').forEach(card=>{card.addEventListener('focus',()=>{const b=card.querySelector('.speaker-bio-hover');if(b)b.style.opacity='1';});card.addEventListener('blur',()=>{const b=card.querySelector('.speaker-bio-hover');if(b)b.style.opacity='0';});});
+const materialTabs = Array.from(document.querySelectorAll('.materials-tab'));
+function selectMaterialTab(tab) {
+  materialTabs.forEach(item => {
+    const selected = item === tab;
+    item.classList.toggle('active', selected);
+    item.setAttribute('aria-selected', String(selected));
+    item.tabIndex = selected ? 0 : -1;
+    document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+  });
+}
+materialTabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => selectMaterialTab(tab));
+  tab.addEventListener('keydown', event => {
+    let next;
+    if (event.key === 'ArrowRight') next = (index + 1) % materialTabs.length;
+    else if (event.key === 'ArrowLeft') next = (index - 1 + materialTabs.length) % materialTabs.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = materialTabs.length - 1;
+    else return;
+    event.preventDefault();
+    selectMaterialTab(materialTabs[next]);
+    materialTabs[next].focus();
+  });
+});
 </script>
 </body>
 </html>
