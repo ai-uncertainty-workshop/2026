@@ -400,7 +400,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 
 @media(max-width:900px){ .hero-logos{top:calc(var(--nav-h) + 24px);left:20px;right:20px;display:flex;justify-content:center;padding:10px 13px;gap:30px;} .hero-logo-imperial{height:21px;} .hero-logo-mind{height:46px;} .hero-logo-ukri{height:44px;} .hero-content{padding-top:142px;} }
 @media(max-width:600px){ #hero{display:block;} .hero-title{font-size:2.8rem;} .section{padding:64px 0;} .container{padding:0 20px;} .hero-ctas{flex-direction:column;} .hero-logos{position:relative;top:auto;left:auto;right:auto;bottom:auto;display:flex;margin:20px auto 0; width:max-content; max-width:calc(100% - 40px); flex-wrap:wrap; justify-content:center;} .hero-content{padding-top:28px;} #tagline-wrap{min-height:46px;} }
-.materials-tabs { display:flex; gap:8px; border-bottom:2px solid var(--border); }
+.materials-tabs { display:flex; flex-wrap:wrap; gap:8px; border-bottom:2px solid var(--border); }
 .materials-tab { background:none; border:0; border-bottom:3px solid transparent; padding:14px 20px; margin-bottom:-2px; font:inherit; color:var(--text-light); cursor:pointer; }
 .materials-tab.active { color:var(--turquoise); border-bottom-color:var(--turquoise); }
 .materials-tab:focus-visible, .materials-panel:focus-visible { outline:2px solid var(--turquoise); outline-offset:4px; }
@@ -609,6 +609,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     <div class="materials-tabs" role="tablist" aria-label="Workshop documents">
       <button type="button" class="materials-tab active" id="programme-documents-tab" role="tab" aria-selected="true" aria-controls="programme-documents" tabindex="0">Programme</button>
       <button type="button" class="materials-tab" id="resource-documents-tab" role="tab" aria-selected="false" aria-controls="resource-documents" tabindex="-1">Resources</button>
+      <button type="button" class="materials-tab" id="conduct-documents-tab" role="tab" aria-selected="false" aria-controls="conduct-documents" tabindex="-1">Code of Conduct</button>
     </div>
     <div id="programme-documents" class="materials-panel" role="tabpanel" aria-labelledby="programme-documents-tab" tabindex="0">
       <h3>Workshop programme</h3>
@@ -616,8 +617,12 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
     </div>
     <div id="resource-documents" class="materials-panel" role="tabpanel" aria-labelledby="resource-documents-tab" tabindex="0" hidden>
       <h3>Learning resources</h3>
-      <p style="margin-bottom:20px;"><a class="btn btn-ocean" href="https://docs.google.com/document/d/1jSE4F44OW1ZwL3mby49_wBF9aM5XcWN_VvnTVxIhMaQ/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Code of Conduct (Google Docs)</a></p>
+      
       <p>Lecture notes and workshop materials will be added here soon.</p>
+    </div>
+    <div id="conduct-documents" class="materials-panel" role="tabpanel" aria-labelledby="conduct-documents-tab" tabindex="0" hidden>
+      <h3>Code of Conduct</h3>
+      <p><a class="btn btn-ocean" href="https://docs.google.com/document/d/1jSE4F44OW1ZwL3mby49_wBF9aM5XcWN_VvnTVxIhMaQ/edit?usp=sharing" target="_blank" rel="noopener noreferrer">View Code of Conduct (Google Docs)</a></p>
     </div>
   </div>
 </section>
