@@ -251,7 +251,8 @@ body {
 .tl-desc.open { display:block; }
 
 /* ── SPEAKERS ── */
-.speaker-rail { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; max-width:840px; margin-inline:0; padding-bottom:16px; }
+.speaker-rail { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; max-width:1126px; margin-inline:0; padding-bottom:16px; }
+.speaker-card:nth-child(5) { grid-column:1; }
 .speaker-rail::-webkit-scrollbar { height:3px; }
 .speaker-rail::-webkit-scrollbar-thumb { background:var(--turquoise); }
 .speaker-card { min-width:0; width:100%; background:white; border:1px solid var(--border); position:relative; overflow:hidden; cursor:default; transition:var(--t); box-shadow: 0 2px 8px rgba(0,184,212,0.08); }
@@ -407,7 +408,7 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
 .materials-panel { padding:28px 0 0; color:var(--text-light); }
 .materials-panel h3 { color:var(--text); margin-bottom:12px; }
 .materials-panel[hidden] { display:none; }
-@media(max-width:760px){ .speaker-rail{grid-template-columns:repeat(2,minmax(0,1fr));max-width:560px;} }
+@media(max-width:1000px){ .speaker-rail{grid-template-columns:repeat(2,minmax(0,1fr));max-width:560px;} .speaker-card:nth-child(5){grid-column:auto;} }
 @media(max-width:480px){ .speaker-rail{grid-template-columns:1fr;max-width:280px;} }
 /* Fill these portrait frames without letterboxing. */
 .speaker-avatar img[src="Nadeem.jpg"],
@@ -762,6 +763,18 @@ footer { background:var(--sky); border-top:1px solid var(--border); padding:72px
           <div class="speaker-interests">Probabilistic Computing, Radio interferometry and RFI removal</div>
         </div>
       </div>
+      <div class="speaker-card" tabindex="0">
+        <div class="speaker-avatar has-image">
+          <img src="alireza.jpeg" alt="Alireza Vafaei Sadr">
+          <span class="speaker-initials">A.V.S</span>
+        </div>
+        <div class="speaker-bio-hover">Lecturer.</div>
+        <div class="speaker-info">
+          <div class="speaker-name">Alireza Vafaei Sadr</div>
+          <div class="speaker-aff">Assistant Professor, Penn State College of Medicine</div>
+          <div class="speaker-interests">Medical and Healthcare AI</div>
+        </div>
+      </div>
     </div>
 
     <div style="margin-top:40px;">
@@ -964,7 +977,6 @@ materialTabs.forEach((tab, index) => {
     materialTabs[next].focus();
   });
 });
-   <!-- Refresh website deployment -->
 </script>
 </body>
 </html>
